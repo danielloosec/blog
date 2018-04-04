@@ -1,2 +1,0 @@
-# blog
-security blog
