@@ -30,7 +30,7 @@ Below is a list of sources to use for protecting yourself from the highest autho
 
 [Off The Record Communications][Off-The-Record-Communications] - How to truly communicate anonomusly.
 
-[How Tor Users Get Caught][How-Tor-Users-Get-Caught] - A talk at Defcon on the most famous tricks used by law enforcement and the largest mistakes made by people tryint to hide themselves.
+[How Tor Users Get Caught][How-Tor-Users-Get-Caught] - A talk at Defcon on the most famous tricks used by law enforcement and the largest mistakes made by people trying to hide themselves.
 
 <b>Personal Tips</b>
 
