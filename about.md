@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Daniel Loo
+Daniel Loo<br>
 Email: daniellooartist@gmail.com
 
 
