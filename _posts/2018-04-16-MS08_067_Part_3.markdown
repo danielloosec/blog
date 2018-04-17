@@ -55,7 +55,7 @@ show options
 You should get something like the image below
 https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
 
-<img src"../images/ms08_067/msfconsole_show_options1.JPG">
+<img src="../_site/images/ms08_067/msfconsole_show_options1.JPG">
 
 You may notice that a fiew of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
 
@@ -67,7 +67,7 @@ ifconfig
 
 You should see something like this. I highlighted the IP in yellow.
 
-<img src"../images/ms08_067/ifconfig.JPG">
+<img src="../_site/images/ms08_067/ifconfig.JPG">
 
 Type in the following, but replace the RHOST IP with the Windows IP you found earlier and LHOST of the Kali IP.
 
@@ -89,7 +89,7 @@ set ViewOnly false
 
 Now run show options again and you should have something like this.
 
-<img src"../images/ms08_067/msfconsole_show_options2.JPG">
+<img src="../_site/images/ms08_067/msfconsole_show_options2.JPG">
 
 Run the following command.
 
@@ -99,7 +99,7 @@ exploit
 
 Congradulations. You did it! You can now do whatever you like to the target computer.
 
-<img src"../images/ms08_067/owned.JPG">
+<img src="../_site/images/ms08_067/owned.JPG">
 
 [Rapid7-DB]: https://www.rapid7.com/db
 [Using-Exploits]: https://www.offensive-security.com/metasploit-unleashed/exploits/

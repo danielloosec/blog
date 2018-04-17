@@ -60,7 +60,7 @@ Click the "play" button on the righthand side of the new line item. You should s
 
 Click the name of your scan in order to open the report. It should look something like this.
 
-<img src"../images/ms08_067/nessus.jpg">
+<img src="../_site/images/ms08_067/nessus.jpg">
 
 You should notice different colors indicate different levels of seriousness. You should also notice each one has a name like MS17-010 or MS08-067. These are the codes for the "exploits" we will use later. The one we are concerned with is MS08-067. You can click it to gather more information if you wish. Yet we will be looking this up in another database.
 
