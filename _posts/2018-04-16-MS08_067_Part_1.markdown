@@ -42,7 +42,7 @@ Click "General" tab
 Make sure the firewall is turned "off"
 
 <b>Disable Updates</b>
-[WikiHow (WinXP Support Ended) - Disable Automatic Updates][Wikihow-Disable-Updates]
+<br>[WikiHow (WinXP Support Ended) - Disable Automatic Updates][Wikihow-Disable-Updates]
 
 Start > Run > wscui.cpl
 
@@ -86,7 +86,11 @@ Click the WINS tab
 
 Check "Enable NetBios Over TCP/IP"
 
+<br>[Part 2 (Searching for Targets and their Weaknesses)][part-2]
+<br>[Part 3 (Exploiting The Vulnurability)][part-3]
 
+[part-2]: MS08_067_Part_2.html
+[part-3]: MS08_067_Part_3.html
 [Kali-Install]: https://www.blackmoreops.com/2014/04/08/detailed-guide-installing-kali-linux-on-virtualbox/
 [WinXP-Install]: http://www.tomshardware.com/faq/id-1853121/set-virtual-windows-machine-virtualbox.html
 [Microsoft-Support-Firewall]: https://support.microsoft.com/en-us/help/875356/how-to-configure-the-windows-firewall-feature-in-windows-xp-service-pa
