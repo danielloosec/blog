@@ -7,13 +7,13 @@ categories: jekyll update
 
 <br>[Part 1 (Installing The Virtual Network)][part-1]
 
-Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise you would be commiting an illegal act.
+Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.
 
-We are going to two things. We are going to use a built in tool called nmap to search the network for the IP address of the target computer. Next we are going to install something called Nessus, which searches each computers for holes in it's security. Some holes will be bigger than others. But if you followed part 1, then we have already ensured there will be at least one nasty security flaw that we will use in part 3.
+We are going to two things. We are going to use a built-in tool called nmap to search the network for the IP address of the target computer. Next we are going to install something called Nessus, which searches each computer for holes in its security. Some holes will be bigger than others. But if you followed part 1, then we have already ensured there will be at least one nasty security flaw that we will use in part 3.
 
 <b>Run nmap</b>
 
-I am going to assume you have a local ip range. Something like 192.168.1.* Open the terminal in Kali linux and run the following command.
+I am going to assume you have a local ip range. Something like 192.168.1.* Open the terminal in Kali Linux and run the following command.
 
 {% highlight ruby %}
 nmap -Pn -sn 192.168.1.0/24
@@ -22,7 +22,7 @@ nmap -Pn -sn 192.168.1.0/24
 #0/24: Scans everything in the last octet. In otherwords, all 256 possibilities.
 {% endhighlight %}
 
-If you scroll down passed all the "Host is Up" messages, then you should see the PC's on your network. You should be able to find the one with the name of your XP machine. If you didn't know the name of the computer you wanted to attack, you can see what operating system version they are running by using the following command. My Windows xomputer's IP is 192.168.1.244. 
+If you scroll down past all the "Host is Up" messages, then you should see the PC's on your network. You should be able to find the one with the name of your XP machine. If you didn't know the name of the computer you wanted to attack, you can see what operating system version they are running by using the following command. My Windows computer's IP is 192.168.1.244. 
 
 {% highlight ruby %}
 nmap -Pn -O 192.168.1.244
@@ -32,11 +32,11 @@ nmap -Pn -O 192.168.1.244
 #Note: You can still use this command with 192.168.1.0/24 to get the OS info for all the active hosts. This will just take longer.
 {% endhighlight %}
 
-You should see the operating system version. It's WindowsXP which is no longer supported. So we already know there is a very good chance this is vulnurable.
+You should see the operating system version. It's WindowsXP which is no longer supported. So we already know there is a very good chance this is vulnerable.
 
 <b>Installing Nessus</b>
 
-Follow the tutorial below and use the single user activation key method. It is extreamly well written and straight forward. Once it is installed and enabled on startup, go to the next step.
+Follow the tutorial below and use the single user activation key method. It is extremely well written and straightforward. Once it is installed and enabled on startup, go to the next step.
 
 [Nessus Installation][Nessus-Install]
 
@@ -54,7 +54,7 @@ In the "Name" field, type in a name of your choosing.
 
 In the "Target" field, type in the IP of your windows computer. In my case 192.168.1.244.
 
-Click the "Save" button at the bottum left.
+Click the "Save" button at the bottom left.
 
 If you go back to the "My Scans" folder, you should see a new line item.
 
@@ -72,5 +72,3 @@ You should notice different colors indicate different levels of seriousness. You
 [part-3]: MS08_067_Part_3.html
 [Nessus-Install]: https://www.tenable.com/blog/getting-started-with-nessus-on-kali-linux
 [Nessus-Open]: http://localhost:8834
-
-
