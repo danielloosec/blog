@@ -7,7 +7,7 @@ categories: jekyll update
 
 So you want to become a hacker? Want to be like one of those guys on TV who throws code into a terminal window and gets full control of some system remotely? Would you like to learn the general process? We are going to break into a WindowsXP computer. You might be thinking "hold on a minute, I want to break into something more modern."
 
-More often than not cyber attackers don't have the luxury of full control over one's computer. We know for a fact WindowsXP is exploitable because they no longer have support for it. But fear not, the general process will work for more up to date systems as well provided they are not patched or properly configured. The idea of being able to "remote into a system" involves a three-step process.
+More often than not cyber attackers don't have the luxury of the full level of control over one's computer that we are about to receive. At least not without several other steps unique to the system. We know for a fact WindowsXP is exploitable because they no longer have support for it. But fear not, the general process will work for more up to date systems as well provided they are not patched or properly configured. The idea of being able to "remote into a system" involves a three-step process.
 
 <br>-Scanning the remote network for active target computers
 <br>-scanning them for vulnerabilities
