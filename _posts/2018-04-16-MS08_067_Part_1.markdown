@@ -1,0 +1,94 @@
+---
+layout: post
+title:  "First Hack Part 1 (Installing The Virtual Network)"
+date:   2018-03-28 14:56:03 -0400
+categories: jekyll update
+---
+
+So you want to become a hacker? Want to be like one of those guys on TV who throws code into a terminal window and gets full controll of some system remotley? Would you like to learn the general process? We are going to break into a WindowsXP computer. You might be thinking "hold on a minute, I want to break into something more modern."
+
+More often than not cyber attackers don't have the luxury of full controll over one's computer. We know for a fact WindowsXP is exploitable because they no longer have support for it. But fear not, the general process will work for more up to date systems as well provided they are not patched or proporly configured. The idea of being able to "remote into a system" involves a three step process. Scanning the remote network for active target computers, scanning them for vulnurabilities, then exploiting them with a process called "remote code exicution." More often than not, these type of attacks are possible if and only if the target user either doesn't update their software or fails to proporly configure some service that allows an attacker to remotly access their entire system. There are also 0-day exploits but we will stick to what we realisticly will have access to. I'm going to assume you are using a computer running Windows. We will need to install virtual machines, which is basicly a virtual computer inside your computer. We are going to do this with VirtualBox. Once we install virtualbox we will install the following.
+
+-Windows XP
+-Virtual Box Guest Additions for Windows XP (any service pack)
+-Kali Linux
+-Virtual Box Guest Additions for Kali Linux
+
+I'm not going to go over the install process. There are dozens of tutorials out there for just that. When installing the following, there are a few things we are going to do differently. Instead I'm going to leave references that you can follow, or you can just YouTube it. Either way.
+
+<b>Installing Kali Linux In VirtualBox</b>
+[BlackmoreOps Security Blog - Install Kali Linux (Unofficial)][Kali-Install]
+<b>Installing Windows XP In Virtualbox</b>
+[TomsHardware - Install Windows XP (WinXP Support Ended)][WinXP-Install]
+
+Now that everything is set up, let's look over what we need to do once we install the virtual network.
+
+<b>Installing WindowsXP</b>
+
+If you manage to aquire a copy of Windows XP. There are three things we will do.
+
+-Disable the firewall
+-Disable updates
+-Configure a Bridged network adapter
+-Ensure the Windows XP system is vulnurable
+
+<b>Disable Windows Firewall</b>
+[Microsoft Support - Disable the Firewall][Microsoft-Support-Firewall]
+
+Start > Run > wscui.cpl
+
+Click "General" tab
+
+Make sure the firewall is turned "off"
+
+<b>Disable Updates</b>
+[WikiHow (WinXP Support Ended) - Disable Automatic Updates][Wikihow-Disable-Updates]
+
+Start > Run > wscui.cpl
+
+Check "Turn Off Automatic Updates"
+
+<b>Configure VirtualBox Bridge Adapter</b>
+
+If you followed any tutorial, odds are they had you make NAT adapter. You will not be using this because the two virtual machines will not be able to communicate. In order to fix this we need to install a Bridge Adapter.
+
+Right click the Kali VirtualMachine > Settings
+
+Click "Network" on the lefthand sidebar
+
+Change the "Attached To:" dropdown to Bridged Adapter
+
+Change the "Name:" dropdown to the name of your network adapter. If you do not know the name, then it's usually the first option.
+
+<b>Ensure the WindowsXP system is vulnurable</b>
+
+First we check to make sure no updates installed
+
+Start > Run > Controll Pannel > Add Remove Programs
+
+Check "Show Updates" at the top
+
+Ensure that no updates have been installed. If they did, then click the item, then click the "Remove" button.
+
+Next we ensure NetBios is enabled.
+
+Start > Run > Controll Pannel > Network Connections
+
+Right click on the adapter > proporties
+
+Click "Internet Protocol" in the list
+
+Click the "Proporties" button
+
+Click the "Advanced" button
+
+Click the WINS tab
+
+Check "Enable NetBios Over TCP/IP"
+
+
+[Kali-Install]: https://www.blackmoreops.com/2014/04/08/detailed-guide-installing-kali-linux-on-virtualbox/
+[WinXP-Install]: http://www.tomshardware.com/faq/id-1853121/set-virtual-windows-machine-virtualbox.html
+[Microsoft-Support-Firewall]: https://support.microsoft.com/en-us/help/875356/how-to-configure-the-windows-firewall-feature-in-windows-xp-service-pa
+[Wikihow-Disable-Updates]: https://www.wikihow.com/Turn-Off-Microsoft-Updates-in-Windows-XP
+

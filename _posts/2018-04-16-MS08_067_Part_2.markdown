@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "First Hack Part 2 (Searching for Targets and their Weaknesses)"
+date:   2018-03-28 14:56:03 -0400
+categories: jekyll update
+---
+
+Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise you would be commiting an illegal act.
+
+We are going to two things. We are going to use a built in tool called nmap to search the network for the IP address of the target computer. Next we are going to install something called Nessus, which searches each computers for holes in it's security. Some holes will be bigger than others. But if you followed part 1, then we have already ensured there will be at least one nasty security flaw that we will use in part 3.
+
+<b>Run nmap</b>
+
+I am going to assume you have a local ip range. Something like 192.168.1.* Open the terminal in Kali linux and run the following command.
+
+{% highlight ruby %}
+nmap -Pn -sn 192.168.1.0/24
+#-Pn: Skips ping
+#-sn: Skips port scan
+#0/24: Scans everything in the last octet. In otherwords, all 256 possibilities.
+{% endhighlight %}
+
+If you scroll down passed all the "Host is Up" messages, then you should see the PC's on your network. You should be able to find the one with the name of your XP machine. If you didn't know the name of the computer you wanted to attack, you can see what operating system version they are running by using the following command. My Windows xomputer's IP is 192.168.1.244. 
+
+{% highlight ruby %}
+nmap -Pn -O 192.168.1.244
+#-Pn: Skips ping
+#-O: Obtains system information including the operating system
+
+#Note: You can still use this command with 192.168.1.0/24 to get the OS info for all the active hosts. This will just take longer.
+{% endhighlight %}
+
+You should see the operating system version. It's WindowsXP which is no longer supported. So we already know there is a very good chance this is vulnurable.
+
+<b>Installing Nessus</b>
+
+Follow the tutorial below and use the single user activation key method. It is extreamly well written and straight forward. Once it is installed and enabled on startup, go to the next step.
+
+[Nessus Installation][Nessus-Install]
+
+<b>Scanning Windows XP for Security Vulnurabilities</b>
+
+Open nessus by opening http://localhost:8834
+
+As the install tutorial mentions, accept the exception to the security warning.
+
+In the upper right corner of the webpage, click new scan.
+
+Choose "Basic Network Scan"
+
+In the "Name" field, type in a name of your choosing.
+
+In the "Target" field, type in the IP of your windows computer. In my case 192.168.1.244.
+
+Click the "Save" button at the bottum left.
+
+If you go back to the "My Scans" folder, you should see a new line item.
+
+Click the "play" button on the righthand side of the new line item. You should see a green circle indicating progress. When that circle goes away, the scan will be done.
+
+Click the name of your scan in order to open the report. It should look something like this.
+
+IMAGE OF NESSUS VULNURABILITIES
+
+You should notice different colors indicate different levels of seriousness. You should also notice each one has a name like MS17-010 or MS08-067. These are the codes for the "exploits" we will use later. The one we are concerned with is MS08-067. You can click it to gather more information if you wish. Yet we will be looking this up in another database.
+
+[Nessus-Install]: https://www.tenable.com/blog/getting-started-with-nessus-on-kali-linux
+[Nessus-Open]: http://localhost:8834
+
+
