@@ -40,6 +40,8 @@ Below is a list of sources to use for protecting yourself from the highest autho
 
 (3) Whenever people create a username, others can search for that username and collect information. You can use your identity for normal things like taxes and payment services. Everything else should have a unique name. It will be too hard to remember on it’s own, so use an extension like LastPass or 1Password that can autofill the information.
 
+[Homepage][homepage]
+
 [Electronic-Frontier-Foundation]: https://ssd.eff.org/module-categories/security-scenarios
 [Have-I-Been-Pwned]: https://haveibeenpwned.com
 [SafeShepard]: https://www.safeshepherd.com
@@ -51,3 +53,5 @@ Below is a list of sources to use for protecting yourself from the highest autho
 [JustDeleteMe]: http://backgroundchecks.org/justdeleteme
 [Off-The-Record-Communications]: https://theintercept.com/2015/07/14/communicating-secret-watched
 [How-Tor-Users-Get-Caught]: https://youtu.be/7G1LjQSYM5Q
+
+[homepage]: https://danielloosec.github.io/blog/
