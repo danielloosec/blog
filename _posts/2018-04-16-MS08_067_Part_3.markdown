@@ -45,6 +45,7 @@ You will need to load a list of settings before running the command to hack the 
 
 {% highlight ruby %}
 show options
+#you can use show options for any exploit/payload you end up choosing in the future.
 {% endhighlight %}
 
 You should get something like the image below
