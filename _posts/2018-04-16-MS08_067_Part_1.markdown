@@ -7,7 +7,13 @@ categories: jekyll update
 
 So you want to become a hacker? Want to be like one of those guys on TV who throws code into a terminal window and gets full controll of some system remotley? Would you like to learn the general process? We are going to break into a WindowsXP computer. You might be thinking "hold on a minute, I want to break into something more modern."
 
-More often than not cyber attackers don't have the luxury of full controll over one's computer. We know for a fact WindowsXP is exploitable because they no longer have support for it. But fear not, the general process will work for more up to date systems as well provided they are not patched or proporly configured. The idea of being able to "remote into a system" involves a three step process. Scanning the remote network for active target computers, scanning them for vulnurabilities, then exploiting them with a process called "remote code exicution." More often than not, these type of attacks are possible if and only if the target user either doesn't update their software or fails to proporly configure some service that allows an attacker to remotly access their entire system. There are also 0-day exploits but we will stick to what we realisticly will have access to. I'm going to assume you are using a computer running Windows. We will need to install virtual machines, which is basicly a virtual computer inside your computer. We are going to do this with VirtualBox. Once we install virtualbox we will install the following.
+More often than not cyber attackers don't have the luxury of full controll over one's computer. We know for a fact WindowsXP is exploitable because they no longer have support for it. But fear not, the general process will work for more up to date systems as well provided they are not patched or proporly configured. The idea of being able to "remote into a system" involves a three step process.
+
+-Scanning the remote network for active target computers
+-scanning them for vulnurabilities
+-xploiting them with a process called "remote code exicution."
+
+More often than not, these type of attacks are possible if and only if the target user either doesn't update their software or fails to proporly configure some service that allows an attacker to remotly access their entire system. There are also 0-day exploits but we will stick to what we realisticly will have access to. I'm going to assume you are using a computer running Windows. We will need to install virtual machines, which is basicly a virtual computer inside your computer. We are going to do this with VirtualBox. Once we install virtualbox we will install the following.
 
 -Windows XP
 -Virtual Box Guest Additions for Windows XP (any service pack)
