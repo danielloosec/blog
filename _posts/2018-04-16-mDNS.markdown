@@ -9,8 +9,8 @@ categories: jekyll update
 
 I decided to run Nessus on my Windows 10 PC. This is my fastest PC. It is also my most valuable, so I want to ensure that the security is airtight (without going to extream measures). I loaded up Nessus in order to analyze the machine and the software identified 2 medium level vulnerabilities.
 
-<br>[SMB Signing Disabled][SMB-Signing] https://www.tenable.com/plugins/nessus/57608
-<br>[mDNS Detection (Remote Network)][mDNS-Detection] https://www.tenable.com/plugins/nessus/12218
+<br>[SMB Signing Disabled][SMB-Signing]
+<br>[mDNS Detection (Remote Network)][mDNS-Detection]
 
 I followed the instructions in Nessus' SMB Signing article and blocked UDP port 5353 in Windows firewall. If you are not familliar with the firewall rule creation process, Microsoft wrote better instructions than I ever could have.
 
