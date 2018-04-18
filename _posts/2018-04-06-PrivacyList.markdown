@@ -16,6 +16,8 @@ Below is a list of sources to use for protecting yourself from the highest autho
 
 [SafeShepard][SafeShepard] - Delete questionable data of your data that is already out there.
 
+[Public WiFi][ftc] - Public WiFi is mostly safe, provided you follow FTC guidelines. May not be worth the risk to people who need high level security.
+
 <b>I am someone with information that is valuable to my adversaries.</b>
 
 [Privacytools.io][Privacytools.io] - This is an extensive guide to all the important tools available to meet your privacy needs.
@@ -45,6 +47,7 @@ Below is a list of sources to use for protecting yourself from the highest autho
 [Electronic-Frontier-Foundation]: https://ssd.eff.org/module-categories/security-scenarios
 [Have-I-Been-Pwned]: https://haveibeenpwned.com
 [SafeShepard]: https://www.safeshepherd.com
+[ftc]: https://www.consumer.ftc.gov/articles/0014-tips-using-public-wi-fi-networks
 
 [Privacytools.io]: https://www.privacytools.io
 [PrivacySite]: https://thatoneprivacysite.net

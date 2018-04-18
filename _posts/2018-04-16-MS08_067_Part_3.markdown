@@ -5,13 +5,20 @@ date:   2018-04-18 14:56:03 -0400
 categories: jekyll update
 ---
 
-<b>Scanning with Nessus and applying proposed solutions</b>
+<b>Scanning with Nessus and Applying Proposed Solutions</b>
+
 I decided to run Nessus on my Windows 10 PC. This is my fastest PC. It is also my most valuable, so I want to ensure that the security is airtight (without going to extream measures). I loaded up Nessus in order to analyze the machine and the software identified 2 medium level vulnerabilities.
 
 <br>[SMB Signing Disabled][SMB-Signing] https://www.tenable.com/plugins/nessus/57608
 <br>[mDNS Detection (Remote Network)][mDNS-Detection] https://www.tenable.com/plugins/nessus/12218
 
-I followed the instructions in Nessus' SMB Signing article and blocked UDP port 5353 in Windows firewall, ran the scan again and... the mDNS article did not vanish as expected. I went to Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) essentially makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS.
+I followed the instructions in Nessus' SMB Signing article and blocked UDP port 5353 in Windows firewall. If you are not familliar with the firewall rule creation process, Microsoft wrote better instructions than I ever could have.
+
+[Block Port With Windows 10 Firewall][port]
+
+<b>Reaserching mDNS</b>
+
+Ran the scan again and... the mDNS article did not vanish as expected. I went to Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) essentially makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS.
 
 <b>Locking Down Everything Apple</b>
 
@@ -23,7 +30,7 @@ Just for fun, I disabled the LLMNR entirely in the Group Policy editor.
 
 Computer Configuration\Administrative Templates\Network\DNS Client\Turn off Multicast Name Resolution = Enabled
 
-No luck
+No luck. Worth a try.
 
 <b>Using Nessus Deep Scan Data</b>
 
@@ -33,15 +40,19 @@ At this point, the problem required a Nessus deep scan. The detailed reports wer
 
 After tossing that term into Google, Forum users stated that nvStream was a process for Nvidia's "streaming" service. I remembered that I had ShadowPlay enabled because I sometimes record myself when I do 3D modeling. 
 
-I simply disabled it and even blocked port 5353 as well as the other port on both TCP and UDP in Windows firewall. Still no luck. At this point, things weren't making a whole lot of sense. I began re-installing the GeForce drivers in hopes that would resolve the issue. Unfortunately, it did not. Nvidia is a very respectable company and I figured that there had to be a solution to this problem that didn't involve me simply not using Nvidia products. Other than enabling Shadowplay, I don't use any of Nvidia's features.
+I simply disabled it and even blocked port 5353 as well as the other port on both TCP and UDP in the Windows firewall. Still no luck. At this point, things weren't making a whole lot of sense. I began re-installing the GeForce drivers in hopes that would resolve the issue. Unfortunately, it did not. Nvidia is a very respectable company and I figured that there had to be a solution to this problem that didn't involve me simply not using Nvidia products. Other than enabling Shadowplay, I don't use any of Nvidia's features.
 
 After taking another trip to the Window's Add/Remove Programs menu, I revisited what Nvidia installed and what each package did. Nvidia 3D Vision sounded very essential. One of those things you "just don't touch." But it is always good practice for one to challenge their assumptions. After googling this, those drivers existed exclusively for a hardware produce Nvidia several years ago. It didn't occur to me because it did not get the same amount of spotlight 3D solutions like Occulus did.
 
 <b>Solution</b>
+
 Uninstall 3D Vision drivers and applications
+
 Keep Bonjour disabled on startup
+
 Reverse all the changes mentioned in the article
 
 [SMB-Signing]: https://www.tenable.com/plugins/nessus/57608
 [mDNS-Detection]: https://www.tenable.com/plugins/nessus/12218
 [RFC-6762]: https://tools.ietf.org/html/rfc6762
+[port]: https://docs.microsoft.com/en-us/windows/security/identity-protection/windows-firewall/create-an-inbound-port-rule
