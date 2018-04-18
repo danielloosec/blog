@@ -6,7 +6,7 @@ categories: jekyll update
 ---
 
 <br>[Part 1 (Installing The Virtual Network)][part-1]
-<br>[Part 2 (Searching for Targets and their Weaknesses) ][part-2]
+<br>[Part 2 (Searching for Targets and their Weaknesses)][part-2]
 
 Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.
 
