@@ -118,8 +118,6 @@ Congratulations, you did it!!
 
 ![image tooltip](/blog/images/ms08_067/owned.JPG)
 
-
-
 [part-1]: MS08_067_Part_1.html
 [part-2]: MS08_067_Part_2.html
 [rapid7]: https://www.rapid7.com/db
