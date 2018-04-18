@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Controlling Your Privacy"
-date:   2018-03-28 14:56:03 -0400
+date:   2018-04-06 14:56:03 -0400
 categories: jekyll update
 ---
 There are plenty of ways people can acquire your information. Most people are worried about “hackers.” There is plenty of private information that can be obtained without any type of computer intrusion or illegal activities. People want to be “anonymous” but very few people understand what that means. It’s not like you are a ghost that is invisible to the entire internet. At the end of day, you need to trust people with your information. It’s more about how much anonymity you want. It's about who you are willing to trust with your information. It’s about how much information you are willing to expose. This data can be used by businesses to personalize their services and make life easier. At the same time, most hackers are people who are very skilled at searching for tidbits of information that you have unintentionally chosen to make public. Using the information available, they can infer certian things about your life you did not make public.
