@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "First Hack Part 2 (Searching for Targets and their Weaknesses)"
-date:   2018-004-16 14:56:03 -0400
+date:   2018-04-16 14:56:03 -0400
 categories: jekyll update
 ---
 
