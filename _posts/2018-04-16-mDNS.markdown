@@ -42,7 +42,7 @@ After tossing that term into Google, Forum users stated that nvStream was a proc
 
 I simply disabled it and even blocked port 5353 as well as the other port on both TCP and UDP in the Windows firewall. Still no luck. At this point, things weren't making a whole lot of sense. I began re-installing the GeForce drivers in hopes that would resolve the issue. Unfortunately, it did not. Nvidia is a very respectable company and I figured that there had to be a solution to this problem that didn't involve me simply not using Nvidia products. Other than enabling Shadowplay, I don't use any of Nvidia's features.
 
-After taking another trip to the Window's Add/Remove Programs menu, I revisited what Nvidia installed and what each package did. Nvidia 3D Vision sounded very essential. One of those things you "just don't touch." But it is always good practice for one to challenge their assumptions. After googling this, those drivers existed exclusively for a hardware produce Nvidia several years ago. It didn't occur to me because it did not get the same amount of spotlight 3D solutions like Occulus did.
+After taking another trip to the Window's Add/Remove Programs menu, I revisited what Nvidia installed and what each package did. Nvidia 3D Vision sounded very essential. One of those things you "just don't touch." But it is always good practice for one to challenge their assumptions. After googling this, those drivers existed exclusively for a hardware product Nvidia manufactured several years ago. Specifically, their 3D glasses. It didn't occur to me because this product did not get the same amount of spotlight 3D solutions like Occulus did.
 
 <b>Solution</b>
 
