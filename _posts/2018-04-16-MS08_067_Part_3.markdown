@@ -84,7 +84,7 @@ Before we fill in LHOST, we need to the the IP of your own Linux machine.
 Press Ctrl+Shift+T in order to bring up a new terminal tab
 
 {% highlight ruby %}
-sifconfig
+ifconfig
 {% endhighlight %}
 
 You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likely different.
