@@ -18,7 +18,7 @@ I followed the instructions in Nessus' SMB Signing article and blocked UDP port 
 
 <b>Reaserching mDNS</b>
 
-Ran the scan again and... the mDNS article did not vanish as expected. I went to Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) essentially makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS.
+Ran the scan again and.... the mDNS article did not vanish as expected. I went to Window's local group policy editor and ran the scan again. No difference. I started looking into what mDNS actually was. According to [RFC-6762][RFC-6762], mDNS (Multicast DNS) essentially makes it easier for devices to communicate over a network without the end user having to get too involved in the process. It's the reason why your iTunes can talk to other computer's iTunes so seamlessly. Although I own an iPhone, I don't really get too involved in the "Apple process," so I figured why not disable it. Thankfully iTunes itself uses something called Bonjour in order to utilize mDNS.
 
 <b>Locking Down Everything Apple</b>
 
