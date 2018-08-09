@@ -10,8 +10,6 @@ Security is becoming increasingly important. It is becoming extremely difficult 
 
 After seeing how groups like Russia's Fancy Bear altered the course of an election and scandals like the ones from Cambridge Analytica, it is very clear that being cognizant of information security is a priority for a healthy society. I help friends secure their systems and profiles all the time, so why not write about my own experiences? Groups like the [Electronic Frontier Foundation][eff] are very important in a society that operates primarily online.
 
-Email: daniellooartist@gmail.com
-
-[eff]: https://www.eff.org/
+Email: daniel.loo.itfocus@gmail.com
 
 
