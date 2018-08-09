@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Daniel's Security Blog
-email: daniellooartist@gmail.com
+email: daniel,loo.itfocus@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Hello. My name is Daniel. I write about digital security.
 baseurl: "/blog" # the subpath of your site, e.g. /blog
