@@ -13,7 +13,7 @@ We are going to two things. We are going to use a built-in tool called nmap to s
 
 <b>Making life easier with the .bashrc file</b>
 
-What is .bashrc? Network security requires plenty of commands. Some of those commands are extreamly long and it can be tedious typing them in over and over again. The .bashrc allows you to make command shortcuts. We are going to start by opening .bashrc. First, open a new terminal window. If you have a fresh install of Kali Linux, then you can open it easily. Open terminal by clicking on the black box with the white arrow locate in the menue bar on the left side of your screen.
+What is .bashrc? Network security requires plenty of commands. Some of those commands are extreamly long and it can be tedious typing them in over and over again. The .bashrc allows you to make command shortcuts. We are going to start by opening .bashrc. First, open a new terminal window. If you have a fresh install of Kali Linux, then you can open it easily. Open terminal by clicking on the black box with the white $ symbol locate in the menue bar on the left side of your screen.
 
 you should see something that looks like {% highlight ruby %}[username@pcname ~]${% endhighlight %}
 
