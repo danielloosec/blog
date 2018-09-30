@@ -62,7 +62,7 @@ and finally, make a new line and create this new command.
 
 {% highlight ruby %}
 function update() { sudo apt-get update && sudo apt-get -y upgrade; }
-{% highlight ruby %}
+{% endhighlight %}
 
 Press Ctrl+O and Enter in order to save the file.
 
