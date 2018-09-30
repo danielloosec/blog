@@ -11,32 +11,87 @@ Legal Disclosure: Don't do this on networks other than your own without written 
 
 We are going to two things. We are going to use a built-in tool called nmap to search the network for the IP address of the target computer. Next we are going to install something called Nessus, which searches each computer for holes in its security. Some holes will be bigger than others. But if you followed part 1, then we have already ensured there will be at least one nasty security flaw that we will use in part 3.
 
+<b>Making life easier with the .bashrc file</b>
+
+What is .bashrc? Network security requires plenty of commands. Some of those commands are extreamly long and it can be tedious typing them in over and over again. The .bashrc allows you to make command shortcuts. We are going to start by opening .bashrc. First, open a new terminal window. If you have a fresh install of Kali Linux, then you can open it easily. Open terminal by clicking on the black box with the white arrow locate in the menue bar on the left side of your screen.
+
+you should see something that looks like {% highlight ruby %}[username@pcname ~]${% endhighlight %}
+
+The ~ means that you are in your home directory. Normally you won't see the .bashrc file if you were to access it normally. That is because the dot before the filename tells Linux to make the file invisible. You can access the file by typing in the following command.
+
+{% highlight ruby %}
+nano .bashrc
+{% endhighlight %}
+
+Nano is the name of the command line text editor. You will see that this file has a bunch of code. Don't worry about any of it. Instead, press return in order to move everything down. Press the up arrow to go back to the top of the file. Copy and paste the following line of text. Comments about the command referenced via #
+
+{% highlight ruby %}
+function scan() { sudo arp-scan -l | awk '/192/{print $1}' > ~/ scan_ip; }
+#sudo: Run as an unrestricted super user
+#arp-scan: Read the router's "ARP tables" (I will leave it to you to reaserch this further if you are interested)
+#-l: List IP's
+# | Run another command using the output data
+# /192/ Print the lines containing the number 192. 99% of local IP's start with 192.168.1.
+# {print $1} output the first collum that appears. This, in addition with /192/ should only output the IP addresses on the network
+# > ~/scan_ip; This will dump a list of IP's on the network to a file called scan_ip in the home directory. Use it as a reference if you need to (spoiler alert, we will).
+{% endhighlight %}
+
+Let's break down this command. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. With that in mind, press return to create a new line. Now copy and paste this command. Comments about the command referenced via #
+
+{% highlight ruby %}
+function scannmap() { nmap -iL ~/scan_ip -sV -Pn > scan_nmap;cat ~/scan_nmap;
+#nmap: The program used to scan selected IP's for open ports.
+#-iL: Get selected IP's from a file.
+#~/scan_ip: The file with all the selected IP's from earlier.
+#-Sv: Collect information about the operating system and service version.
+#-Pn: Skip ping. Some computers don't like to be pinged. If they can't be pinged, nmap will ignore them. This part turns it off.
+# > scan_nmap: Dump the results in a file called scan_nmap in the home directory. Use it as a reference if you need to.
+# cat ~/scan_nmap; This will dump the results of the file back into the terminal.
+{% endhighlight %}
+
+Now write the third line of code. This will be the command that is used to actually hack the Windows computer.
+
+{% highlight ruby %}
+function autosploit () { msfconsole -r ~/windows.rc; }
+#msfconsole: This is the Metasploit Framework Console. Metasploit is the program that exploits the vulnurability.
+#-r: Read commands from another file
+#~/windows.rc: The file with commands to be read
+{% endhighlight %}
+
+and finally, make a new line and create this new command.
+
+{% highlight ruby %}
+function update() { sudo apt-get update && sudo apt-get -y upgrade; }
+{% highlight ruby %}
+
+Press Ctrl+O and Enter in order to save the file.
+
+Once the bottum text tells you the file has been saved, close terminal and reopen it.
+
+<b>Keep your system up to date</b>
+
+With terminal open, run the following command
+
+{% highlight ruby %}
+update
+{% endhighlight %}
+
 <b>Run nmap</b>
 
-I am going to assume you have a local ip range. Something like 192.168.1.* Open the terminal in Kali Linux and run the following command.
+I am going to assume you have a local ip range. Something like 192.168.1.* Open the terminal in Kali Linux and run the following two command.
 
 {% highlight ruby %}
-nmap -Pn -sn 192.168.1.0/24
-#-Pn: Skips ping
-#-sn: Skips port scan
-#0/24: Scans everything in the last octet. In otherwords, all 256 possibilities.
+scan
+scannmap
 {% endhighlight %}
 
-If you scroll down past all the "Host is Up" messages, then you should see the PC's on your network. You should be able to find the one with the name of your XP machine. If you didn't know the name of the computer you wanted to attack, you can see what operating system version they are running by using the following command. My Windows computer's IP is 192.168.1.244. 
-
-{% highlight ruby %}
-nmap -Pn -O 192.168.1.244
-#-Pn: Skips ping
-#-O: Obtains system information including the operating system
-
-#Note: You can still use this command with 192.168.1.0/24 to get the OS info for all the active hosts. This will just take longer.
-{% endhighlight %}
+You should see the PC's on your network. You should be able to find the one with the name of your XP machine. If you didn't know the name of the computer you wanted to attack, you can see what operating system version they are running by using. My target PC has an IP of 192.168.1.244. 
 
 You should see the operating system version. It's WindowsXP which is no longer supported. So we already know there is a very good chance this is vulnerable.
 
 <b>Installing Nessus</b>
 
-Follow the tutorial below and use the single user activation key method. It is extremely well written and straightforward. Once it is installed and enabled on startup, go to the next step.
+Follow the tutorial below and use the single user activation key method. It is extremely well written and straight forward. Once it is installed and enabled on startup, go to the next step.
 
 [Nessus Installation][Nessus-Install]
 
