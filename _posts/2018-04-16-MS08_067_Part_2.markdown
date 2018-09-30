@@ -121,7 +121,7 @@ Click the name of your scan in order to open the report. It should look somethin
 
 You should notice different colors indicate different levels of seriousness. You should also notice each one has a name like MS17-010 or MS08-067. These are the codes for the "exploits" we will use later. The one we are concerned with is MS08-067. You can click it to gather more information if you wish. Yet we will be looking this up in another database.
 
-<br>[Part 3 (Exploiting The Vulnurability)][part-3]
+<br>[Part 3 (Exploiting The Vulnurability)][part-3]</br>
 
 [part-1]: MS08_067_Part_1.html
 [part-3]: MS08_067_Part_3.html
