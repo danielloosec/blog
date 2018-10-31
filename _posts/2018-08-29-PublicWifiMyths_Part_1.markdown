@@ -71,9 +71,7 @@ What is .bashrc? Network security requires plenty of commands. Some of those com
 nano .bashrc
 {% endhighlight %}
 
-{% highlight ruby %}
 Note: If you choose to modify this file in something like Mousepad, then all you need to do is make it visible in the file manager. Click on the file manager, click on the toggle view drop-down in the upper right-hand corner, then click "Show hidden files." Once you have done that, the file labeled .bashrc should show up and you can edit it.
-{% endhighlight %}
 
 We will start by creating a series of variables at the top of the document. Commands often require us to type in the same set of commands over and over again. Make sure the first couple of lines include the following. I will use my own local IP's but you should use yours.
 
@@ -86,17 +84,17 @@ wifi="wlan0"
 
 If you don't know how to find all this information, then we will go through it step by step.
 
-targetIP: In your target computer (which I assume is windows), type in ipconfig. Look for the line that says IPv4 Address. If you are in a real world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
+<b>targetIP:</b> In your target computer (which I assume is windows), type in ipconfig. Look for the line that says IPv4 Address. If you are in a real world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
 
-myIP: This is the IP for your Kali Linux machine. Type ifconfig and look for the 192.168 address.
+<b>myIP:</b> This is the IP for your Kali Linux machine. Type ifconfig and look for the 192.168 address.
 
 ![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
 
-gatewayIP: Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
+<b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
 
-eth: Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
+<b>eth:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
 
-wifi: Same as eth. The only difference is that this is the wireless adapter name when you are NOT using a virtual machine. Leave it wlan0 for now, but be sure to double check if you are using Kali as your main system.
+<b>wifi:</b> Same as eth. The only difference is that this is the wireless adapter name when you are NOT using a virtual machine. Leave it wlan0 for now, but be sure to double check if you are using Kali as your main system.
 
 Now that we have finished configuring the variables, we are going to add in some function commands. What are the functions? Let's break it down. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. The command itself is in between the { } space. Comments about the command referenced via #
 
