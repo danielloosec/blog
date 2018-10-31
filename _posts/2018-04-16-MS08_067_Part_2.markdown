@@ -36,7 +36,7 @@ function scan() { sudo arp-scan -l | awk '/192/{print $1}' > ~/ scan_ip; }
 # > ~/scan_ip; This will dump a list of IP's on the network to a file called scan_ip in the home directory. Use it as a reference if you need to (spoiler alert, we will).
 {% endhighlight %}
 
-Let's break down this command. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. With that in mind, press return to create a new line. Now copy and paste this command. Comments about the command referenced via #
+Let's break down this command. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. The command itself is in between the { } space. With that in mind, press return to create a new line. Now copy and paste this command. Comments about the command referenced via #
 
 {% highlight ruby %}
 function scannmap() { nmap -iL ~/scan_ip -sV -Pn > scan_nmap;cat ~/scan_nmap;
