@@ -7,7 +7,7 @@ categories: jekyll update
 
 <b>Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.</b>
 
-There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. We will look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are four things you must always consider.
+There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. We will look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are 4 things you must always consider.
 
 <b>1: The probability of an individual monitoring your traffic.</b>
 Part of that is going to depend on how crowded the area is. If you are in a coffee shop with a handful of people, the odds are not high. If you are at a Las Vegas hotel, then the odds are higher. Yet the odds of it affecting you in any meaningful way are incredibly low.
