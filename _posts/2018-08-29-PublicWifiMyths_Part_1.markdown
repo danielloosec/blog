@@ -7,7 +7,7 @@ categories: jekyll update
 
 <b>Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.</b>
 
-There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. We will look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are 4 things you must always consider.
+There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. We will look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are 5 things you must always consider.
 
 <b>1: The probability of an individual monitoring your traffic.</b>
 Part of that is going to depend on how crowded the area is. If you are in a coffee shop with a handful of people, the odds are not high. If you are at a Las Vegas hotel, then the odds are higher. Yet the odds of it affecting you in any meaningful way are incredibly low.
@@ -20,6 +20,9 @@ Speaking for websites, you should always make sure the green lock appears in the
 
 <b>4: The amount of time an attacker is willing to spend stealing your information.</b>
 As mentioned above, not everyone has valuable information. Most attackers will give up after a certain period of time. If you are running an unencrypted application, then it's still unlikely that the attacker is going to spend time making heads or tails of the information exclusive to the application.
+
+<b>5: If you need to enter information into a router in order to access the network</b>
+Paid WiFi, even over HTTPS can be a risk. Hackers have ways of making a fake verions that look like the real ones. They can even certify it for encryption free of charge with programs like [Let's  Encrypt][lets-encrypt] for free. If you have to provide your credit card number or anything sensative, then refer to the first two steps to assess your risk.
 
 <b>Roadmap</b>
 
@@ -232,3 +235,6 @@ function tshark_smb() { sudo tshark -i $eth -f "port 445" -b filesize:8192 -a fi
 {% endhighlight %}
 
 Save and exit the terminal in order for changes to take effect. When you run Wireshark, you can open as many extra terminal windows as you like and capture as much filtered traffic as you deem necessary.
+
+[lets-encrypt]: https://letsencrypt.org
+[first-hack-pt2]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_2.html
