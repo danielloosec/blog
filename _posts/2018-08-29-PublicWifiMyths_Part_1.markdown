@@ -91,7 +91,7 @@ If you don't know how to find all this information, then we will go through it s
 
 <b>myIP:</b> This is the IP for your Kali Linux machine. Type ifconfig and look for the 192.168 address.
 
-![image tooltip](/blog/images/ms08_067/ifconfig.JPG)
+![image tooltip](/blog/images/wifi/ifconfig.JPG)
 
 <b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
 
