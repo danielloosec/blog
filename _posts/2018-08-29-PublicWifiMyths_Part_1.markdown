@@ -236,5 +236,8 @@ function tshark_smb() { sudo tshark -i $eth -f "port 445" -b filesize:8192 -a fi
 
 Save and exit the terminal in order for changes to take effect. When you run Wireshark, you can open as many extra terminal windows as you like and capture as much filtered traffic as you deem necessary.
 
+[Pt2. Can Your Private Information Be Stolen?][part-2]
+
 [lets-encrypt]: https://letsencrypt.org
 [first-hack-pt2]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_2.html
+[part-2]: https://danielloosec.github.io/blog/jekyll/update/2018/08/29/PublicWifiMyths_Part_2.html

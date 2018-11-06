@@ -73,3 +73,4 @@ If your data is not encrypted, it is exposed. If it is encrypted, then it is saf
 [neopets.com]: http://www.neopets.com
 [EditThisCookie]: http://www.editthiscookie.com
 [User-AgentSwitcher]: http://useragentswitcher.org
+[part-1]: https://danielloosec.github.io/blog/jekyll/update/2018/08/29/PublicWifiMyths_Part_1.html
