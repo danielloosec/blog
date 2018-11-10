@@ -44,14 +44,22 @@ note: not all non-secured login pages listed in the url bar of your browser are 
 If you are an attacker and you don't have the opportunity to capture the initial login, you can still log in with the user's session credentials. A session is basically a string of numbers that lets the web server know that you have already logged in. You can open any HTTP stream then filter by
 
 {% highlight ruby %}
-http.host == www.neopets.com && http.cookiehttp.cookie
+http.host == www.neopets.com && http.cookie
 {% endhighlight %}
 
-Examine the selected packet, then open the "HyperText Transfer Protocol" section. Look under "cookie." A cookie is basically a session in HTTP speak. You can right-click the cookie and copy its value. Place it in a text file somewhere for safe keeping. You should copy the user agent field as well in case the cookie does not work. Place the user agent into a separate line in your text file.
+Examine any of the selected packets, then open the "HyperText Transfer Protocol" section. Look under "cookie." A cookie is basically a session in HTTP speak. You can right-click the cookie and copy printable value. Place it in a text file somewhere for safe keeping. Make sure you get rid of the <i>cookie: </i> at the beginning of the string. You should copy the user agent field as well in case the cookie does not work. Place the user agent into a separate line in your text file.
 
 ![image tooltip](/blog/images/wifi/wiresharkcookie.JPG)
 
-Once you have copied everything, go to the website your target user is visiting. copy that cookie into your own session with a tool like [EditThisCookie][EditThisCookie]. You will need to avoid including the semicolon or space in your when copying information from your newly created text file. Those two symbols together signify the end of the current parameter. Alternatively, you can edit the cookie with your web browser's development tools with Ctrl+Shift+I. If you choose to edit the cookie in a browser, then the cookie ie typically found under the "Applications" tab. Otherwise, you will need to Google the process in your respective web browser of choice. If everything has been done correctly, then you should be able to use the victim's account. If you still can not access the account, then try to change the user agent with your web browser. This can be done with [User-Agent Switcher][User-AgentSwitcher] or simply Google how to do it in your respective web browser of choice.
+Once you have copied everything, go to the website your target user is visiting. You will need to write the newly aquired cookie to your session. Go to the url and type in
+
+{% highlight ruby %}
+javascript:document.cookie="VALUE";
+#VALUE is the string you just copied from wireshark
+#NOTE: This will not work if the user has logged out or he has been idle for so long the cookie expires
+{% endhighlight %}
+
+If everything has been done correctly, then you should be able to use the victim's account. If you still can not access the account, then try to change the user agent with your web browser. This can be done with [User-Agent Switcher][User-AgentSwitcher] or simply Google how to do it in your respective web browser of choice.
 
 <b>Exporting Raw HTTP Files</b>
 
@@ -80,7 +88,6 @@ FTP is very straightforward so the username and password should appear in the de
 If your data is not encrypted, it is exposed. If it is encrypted, then it is safe. Several people use the same credentials for other services. If an attacker gets your username and password, then they could test it against common services and in some cases, even your email. You don't want to reset all your passwords in the event an attacker captures yours.
 
 [neopets.com]: http://www.neopets.com
-[EditThisCookie]: http://www.editthiscookie.com
 [User-AgentSwitcher]: http://useragentswitcher.org
 [part-1]: https://danielloosec.github.io/blog/jekyll/update/2018/08/29/PublicWifiMyths_Part_1.html
 [Pew]: http://www.pewresearch.org/profile/
