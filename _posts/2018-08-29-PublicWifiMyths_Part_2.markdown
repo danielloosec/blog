@@ -24,19 +24,30 @@ Once you open the login page, open a new terminal tab and run.
 tshark_http
 {% endhighlight %}
 
-With tshark running, go back to the browser and the respective login page and enter in a username or password. You are not required to have an account. Just enter anything. Once the password is rejected, end tshark with Ctrl+C. Now copy the files over with mv_pcap
+With tshark running, go back to the browser and the respective login page and enter in a username or password. You are not required to have an account. Just enter anything. Once the password is rejected, end tshark with Ctrl+C.
+
+Open the pcap file in your home folder and take note of all the data. You will notice that there is plenty of data going in and out. In order to get to the good stuff, you will need to use a filter. You can filter all HTTP request by typing the following into the Wireshark filter.
 
 {% highlight ruby %}
-mv_pcap
+http.host == www.neopets.com && http.request.method
+#For reference, == means equals and && means AND in Wireshark format.
 {% endhighlight %}
 
-Open the pcap file in your home folder and take note of all the data. You will notice that there is plenty of data going in and out. In order to get to the good stuff, you will need to use a filter. You can filter all HTTP request by typing <i>http.host == www.neopets.com && http.request.method</i> into the filter. For reference, == means equals and && means AND in Wireshark format. You are basically filtering all packets sent to neopets.com, then further filtering that selection by all packets that contain a session. Do not forget to include the www. There should be a limited number of packets to choose from. Look for either the words POST or GET, then look for something that looks like it could contain a password. Once you do that, expand the packet's "HTML Form URL Encode" field. Below you should be able to find the username and password.
+You are basically filtering all packets sent to neopets.com, then further filtering that selection by all packets that contain a session. Do not forget to include the www. There should be a limited number of packets to choose from. Look for either the words POST or GET, then look for something that looks like it could contain a password. Once you do that, expand the packet's "HTML Form URL Encode" field. Below you should be able to find the username and password.
 
 ![image tooltip](/blog/images/wifi/wiresharkpass.JPG)
 
+note: not all non-secured login pages listed in the url bar of your browser are unsecure. Some have HTTPS request embedded but the browser will only pick up the initial page. Case and point, if you were to sniff traffic from [Pew Reasearch][Pew] then you would see that the login request uses port 443 (HTTPS). This does not mean that the service is safe because an attacker can still capture sessions.
+
 <b>Capturing HTTP Sessions</b>
 
-If you are an attacker and you don't have the opportunity to capture the initial login, you can still log in with the user's session credentials. A session is basically a string of numbers that lets the web server know that you have already logged in. You can open any HTTP stream then filter by <i>http.host == www.neopets.com && http.cookiehttp.cookie<i/>. Examine the selected packet, then open the "HyperText Transfer Protocol" section. Look under "cookie." A cookie is basically a session in HTTP speak. You can right-click the cookie and copy its value. Place it in a text file somewhere for safe keeping. You should copy the user agent field as well in case the cookie does not work. Place the user agent into a separate line in your text file.
+If you are an attacker and you don't have the opportunity to capture the initial login, you can still log in with the user's session credentials. A session is basically a string of numbers that lets the web server know that you have already logged in. You can open any HTTP stream then filter by
+
+{% highlight ruby %}
+http.host == www.neopets.com && http.cookiehttp.cookie
+{% endhighlight %}
+
+Examine the selected packet, then open the "HyperText Transfer Protocol" section. Look under "cookie." A cookie is basically a session in HTTP speak. You can right-click the cookie and copy its value. Place it in a text file somewhere for safe keeping. You should copy the user agent field as well in case the cookie does not work. Place the user agent into a separate line in your text file.
 
 ![image tooltip](/blog/images/wifi/wiresharkcookie.JPG)
 
@@ -56,13 +67,13 @@ We start by repeating the capture process.
 tshark_ftp
 {% endhighlight %}
 
-Log into an FTP server of choice. Unlike HTTPS, you will not have to worry about FTP being encrypted. Once you have authenticated, quit tshark with Ctrl+C. Now move the captured files again.
+Log into an FTP server of choice. Unlike HTTPS, you will not have to worry about FTP being encrypted. Once you have authenticated, quit tshark with Ctrl+C. Open the files and use the filter
 
 {% highlight ruby %}
-mv_pcap
+ftp.request
 {% endhighlight %}
 
-Open the files and use the filter <i>ftp.request</i> FTP is very straightforward so the username and password should appear in the description of the packet header.
+FTP is very straightforward so the username and password should appear in the description of the packet header.
 
 <b>Conclusion</b>
 
@@ -72,3 +83,4 @@ If your data is not encrypted, it is exposed. If it is encrypted, then it is saf
 [EditThisCookie]: http://www.editthiscookie.com
 [User-AgentSwitcher]: http://useragentswitcher.org
 [part-1]: https://danielloosec.github.io/blog/jekyll/update/2018/08/29/PublicWifiMyths_Part_1.html
+[Pew]: http://www.pewresearch.org/profile/

