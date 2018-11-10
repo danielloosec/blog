@@ -155,6 +155,14 @@ sudo mv /tmp/*.pcap ~;
 
 Save the file with Ctrl+O and confirm the changes. Press Ctrl+X to exit nano. You will need to close and reopen the terminal in order for the changes to take effect.
 
+<b>Always Update First</b>
+
+Make sure your systems up to date. Run the new update command.
+
+{% highlight ruby %}
+update
+{% endhighlight %}
+
 <b>Monitoring A Specific Individual</b>
 
 Open a new terminal window and run the following commands
