@@ -178,9 +178,7 @@ If you see the same thing, then this means the redirect is working as well.
 
 Next we will need to make a copy of the neopets.com website. Open terminal and type
 
-{% highlight ruby %}
-sudo setoolkit
-{% endhighlight %}
+
 
 #Once inside, choose these options in order
 
