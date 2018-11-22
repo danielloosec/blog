@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Myths Of Public WiFi - Pt1. Can Your Traffic Be Monitored?"
-date:   2018-08-29 14:56:03 -0400
+date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---
 
@@ -19,10 +19,10 @@ If you are an incredibly wealthy individual making financial transactions, then 
 Speaking for websites, you should always make sure the green lock appears in the upper left corner. This means the website is encrypted with HTTPS (as opposed to HTTP) and that is good. I can assure you that all popular mainstream websites have strong encryption. There's a lot of debate as to whether or not all websites always need to be encrypted. The short answer is yes, websites must ALWAYS be encrypted. Even if no login is required or the login screen is the only encrypted page, then you could be susceptible to DNS or Session Hijacking. We will prove that these threats are very real in later articles. Keep in mind that is is possible for an attacker to keep encrypted data, then decrypt it once the public learns how to break that version of the encryption. Yet this is highly unlikely. Also, keep in mind that other applications on your computer may not be safe. If an attacker gets the username and password for an unencrypted application, then they can use that password to log into other accounts that share the same username and password. You may have some applications running in the background that broadcast raw information that can be stolen.
 
 <b>4: The amount of time an attacker is willing to spend stealing your information.</b>
-As mentioned above, not everyone has valuable information. Most attackers will give up after a certain period of time. If you are running an unencrypted application, then it's still unlikely that the attacker is going to spend time making heads or tails of the information exclusive to the application.
+As mentioned above, not everyone has valuable information. Most attackers will give up after a certain period of time. If you are running an unencrypted application, then it's still unlikely that the attacker is going to spend time making heads or tails of the information exclusive to the application let alone develop an exploit for it.
 
 <b>5: If you need to enter information into a router in order to access the network</b>
-Paid WiFi, even over HTTPS can be a risk. Hackers have ways of making a fake verions that look like the real ones. They can even certify it for encryption free of charge with programs like [Let's  Encrypt][lets-encrypt] for free. If you have to provide your credit card number or anything sensative, then refer to the first two steps to assess your risk.
+Paid WiFi, even over HTTPS can be a risk. Hackers have ways of making fake versions that look like the real ones. They can even certify it for encryption free of charge with programs like [Let's  Encrypt][lets-encrypt] for free. If you have to provide your credit card number or anything sensitive, then refer to the first two steps to assess your risk.
 
 <b>Roadmap</b>
 
@@ -32,7 +32,7 @@ Paid WiFi, even over HTTPS can be a risk. Hackers have ways of making a fake ver
 
 -VirtualBox in order to host Kali in a virtual machine.
 
--A target system. You can just use your main operating system as the target.
+-A target system. I suggest installing a second virtual machine with [Windows XP as I have done][first-hack-pt1]
 
 -Your own router
 
@@ -52,7 +52,9 @@ You can capture traffic through a network with a three-step process.
 
 -capturing a copy of the TCP traffic flow with Wireshark.
 
-ARP tables are like spreadsheets on the router. They assign IP’s to MAC addresses. IP addresses need to know which device to forward traffic to, and ARP tables provide the directory. As the attacker, we are going to make the victim’s IP point to our hardware instead of theirs. Once their traffic is redirected to our computer, we will forward the traffic back to them. In short, their traffic will need to flow between our computer before reaching its destination, hence the name “Man In The Middle” Attack.
+<b>What is the Address Resolution Protocol and why is it important?</b>
+
+ARP tables are like spreadsheets on the router. They assign IP’s to your network adapters direct hardware ID (MAC address). IP addresses need to know which device to forward traffic to, and ARP tables provide the directory. As the attacker, we are going to make the victim’s IP point to our hardware instead of theirs. Once their traffic is redirected to our computer, we will forward the traffic back to them. In short, their traffic will need to flow between our computer before reaching its destination, hence the name “Man In The Middle” Attack.
 
 <b>Configure VirtualBox Bridge Adapter</b>
 
@@ -66,6 +68,10 @@ Change the "Attached To:" dropdown to Bridged Adapter
 
 Change the "Name:" dropdown to the name of your network adapter. If you do not know the name, then it's usually the first option.
 
+<b>Install a Windows XP VM</b>
+
+It is easier to use an operating system that is compleatly vulnurable for testing. If these tutorials do not operate correctly on your primary system, then there could be an infinite variety of possible reasons. Make sure you test everything on a clean slate first before operating on other equiptment. In order to ensure the most certianty and the least room for error, follow my guide on installing a perfectly vulnurable version of [Windows XP][first-hack-pt1].
+
 <b>Making life easier with the .bashrc file</b>
 
 What is .bashrc? Network security requires plenty of commands. Some of those commands in Kali are extremely long and it can be tedious typing them in over and over again. First, boot up Kali Linux in VB. The .bashrc file allows you to make command shortcuts. So start by opening .bashrc by opening a new terminal window. next type
@@ -76,18 +82,20 @@ nano .bashrc
 
 Note: If you choose to modify this file in something like Mousepad, then all you need to do is make it visible in the file manager. Click on the file manager, click on the toggle view drop-down in the upper right-hand corner, then click "Show hidden files." Once you have done that, the file labeled .bashrc should show up and you can edit it.
 
-We will start by creating a series of variables at the top of the document. Commands often require us to type in the same set of commands over and over again. Make sure the first couple of lines include the following. I will use my own local IP's but you should use yours.
+We will start by creating a series of variables at the top of the document. Commands often require us to type in the same set of commands over and over again. We do not want this. Make sure the first couple of lines include the following. I will use my own local IP's but you should use yours.
 
 {% highlight ruby %}
-targetIP="192.168.1.100"
-myIP="192.168.1.4"
-gatewayIP="192.168.1.1"
-adp="eth0"
+targetIP="192.168.1.26";
+#target IP is the IP of your target windows system. ipconfig on the Windows VM for more details.
+myIP="$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}')";
+gatewayIP="$(route -n | awk '{print $2}' | sed -n 3p)";
+adp="$(ifconfig | grep flags | awk '{print $1}' | sed -n 1p | tr -d ':')";
+#Without going into too much detail, ifconfig is how we find the IP. The | character seperates multiple series of commands to strip text and isolate the desired value. Use 'man' for more details.
 {% endhighlight %}
 
 If you don't know how to find all this information, then we will go through it step by step.
 
-<b>targetIP:</b> In your target computer (which I assume is windows), type in ipconfig. Look for the line that says IPv4 Address. If you are in a real world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
+<b>targetIP:</b> In your target computer (which I assume is windows), type in ipconfig. Look for the line that says IPv4 Address. If you are in a real-world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
 
 <b>myIP:</b> This is the IP for your Kali Linux machine. Type ifconfig and look for the 192.168 address.
 
@@ -96,6 +104,19 @@ If you don't know how to find all this information, then we will go through it s
 <b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
 
 <b>adp:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
+
+Save with Ctrl+O, Exit with Ctrl+X and open a new terminal tab. Test them with the following commands
+
+{% highlight ruby %}
+echo $myIP
+echo $gatewayIP
+echo $adp
+
+#Compare them against
+
+ifconfig
+route -n
+{% endhighlight %}
 
 Now that we have finished configuring the variables, we are going to add in some function commands. What are the functions? Let's break it down. The shortcut always will appear in the following format. function short() { long; }. The short is the shortened version of the actual command. The command itself is in between the { } space. Comments about the command referenced via #
 
@@ -111,7 +132,7 @@ function poison ()
 {
 sudo sysctl -w net.ipv4.ip_forward=1;
 sudo ettercap -T -M arp:remote /$gatewayIP// /$targetIP//;
-sudo sysctl -w net.ipv4.ip_forward=1;
+sudo sysctl -w net.ipv4.ip_forward=0;
 }
 #sysctl: used to modify built in system varibles.
 #-w: used to specify a change in sysctl itself.
@@ -119,7 +140,7 @@ sudo sysctl -w net.ipv4.ip_forward=1;
 
 #ettercap: A tool that is used to monitor traffic
 #-T: Text only interface. As opposed to graphical
-#-M arp:remote: Tells ettercap to perform a "man in the middle attack" as discussed earlier in the article. We will tell it to use the arp attack to collect inbound and outbound traffic. As opposed to arp:oneway which only poisons the outbound traffic from the target.
+#-M arp:remote: Tells Ettercap to perform a "man in the middle attack" as discussed earlier in the article. We will tell it to use the arp attack to collect inbound and outbound traffic. As opposed to arp:oneway which only poisons the outbound traffic from the target.
 #/$gatewayIP// The first target. Redirecting all traffic from target1 to target2
 #/$gatewayIP// The second target.
 
@@ -141,7 +162,7 @@ function ip_forward_off() { sudo sysctl -w net.ipv4.ip_forward=0; }
 #Same as above, but =0 turns IP forwarding off. Use this command when you are done with your operation.
 {% endhighlight %}
 
-The next function can not simply be be added with a copy paste. You will need to look at the second command and change myuser:myuser to whatever your active username is.
+The next function cannot simply be added with a copy paste. You will need to look at the second command and change myuser:myuser to whatever your active username is.
 
 {% highlight ruby %}
 function mv_pcap () 
@@ -181,14 +202,14 @@ With the net terminal tab open, we are going to capture the traffic and store it
 sudo tshark -i $adp -b filesize:8192 -a files:10 -w /tmp/capture.pcap
 #tshark: Wireshark capture tool for command interfaces.
 #-i: Specify the interface. We are using our custom variable
-#-b: Limit the capture either by duration, filesize, or number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
+#-b: Limit the capture either by duration, file size, or the number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
 #-a: Autostop. When to stop the process. In this case, after 10 files.
 #-w: Write files to a directory. In this case, /tmp/. Make sure the file name ends with .pcap so we can open it later.
 {% endhighlight %}
 
 <b>Reading Captured Traffic</b>
 
-While Wireshark is running, browse the internet with your target system. Take a break and do what you would normally do on the internet. Reframe from playing online games or streaming since this takes up a lot of space. I would suggest simply browsing the internet. After some time has passed, click the second terminal tab. Press Ctrl+C to stop the capture process if it hasn't stopped itself. Click on the first terminal tab. Press q in order to quit ettercap. Now run the following command to re-enable ip forwarding
+While Wireshark is running, browse the internet with your target system. Take a break and do what you would normally do on the internet. Reframe from playing online games or streaming since this takes up a lot of space. I would suggest simply browsing the internet. After some time has passed, click the second terminal tab. Press Ctrl+C to stop the capture process if it hasn't stopped itself. Click on the first terminal tab. Press q in order to quit Ettercap. Now run the following command to re-enable IP forwarding
 
 {% highlight ruby %}
 sudo sysctl -w net.ipv4.ip_forward=0;
@@ -247,8 +268,19 @@ function tshark_smb() { sudo tshark -i $adp -f "port 445" -b filesize:8192 -a fi
 
 Save and exit the terminal in order for changes to take effect. When you run Wireshark, you can open as many extra terminal windows as you like and capture as much filtered traffic as you deem necessary.
 
+<b>Conclusion</b>
+
+Your data can be monitored even if it is encrypted. The important distinction is how much information an attacker can actually see. The common misconception is that an attacker can monitor everyone at once. The man in the middle attack is only practical if and only if the person on the other end targets you specifically. Earlier we wrote a command to poison the entire network. If you have a family network, try running that command.
+
+{% highlight ruby %}
+poison_all
+{% endhighlight %}
+
+Notice something? Your computer slow to a crawl followed by the outburst from your wife and kids. It is very common for people to multitask when browsing the internet. Some people are watching Netflix and several are streaming music while working. All of that traffic must go through your network adapter at once. Even with an ethernet connection, it is very unlikely that your router or adapter will be able to handle such a high volume of traffic. When assessing your risk, consider that an attacker can only monitor a few people at any given time. Consider the odds of it being you at random. If you are worried about being targeted as an individual due to stalking, contact the local authorities for further action.
+
 [Pt2. Can Your Private Information Be Stolen?][part-2]
 
 [lets-encrypt]: https://letsencrypt.org
+[first-hack-pt1]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_1.html
 [first-hack-pt2]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_2.html
-[part-2]: https://danielloosec.github.io/blog/jekyll/update/2018/08/29/PublicWifiMyths_Part_2.html
+[part-2]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_2.html
