@@ -197,7 +197,7 @@ Go to your /var/www/html directory and open the harvester text file. You should 
 
 <b>Conclusion</b>
 
-Websites that use http can still be vulnurable to phishing scams. Even if the attacker is not trying to phish for the user credentials, he could still make a page that executes mallicious code. This attack will only work if the user does not notice how little sense it makes for a link on an http website to redirect to a login page on a different service alltogether. Half the population will proborbly fall for this, but I have not run the study myself due to obvious legal concerns. The DNS redirect attack I just described will only work if you already know what HTTP websites the user is currently browsing.
+Websites that use HTTP can still be vulnurable to phishing scams. Even if the attacker is not trying to phish for the user credentials, he could still make a page that executes mallicious code. This attack will only work if the user does not notice how little sense it makes for a link on an http website to redirect to a login page on a different service alltogether. Half the population will proborbly fall for this, but I have not run the study myself due to obvious legal concerns. The DNS redirect attack I just described will only work if you already know what HTTP websites the user is currently browsing.
 
 [Part 4 (If I See The Lock In My Browser's URL, Does That Mean I'm Safe?)][part-4]
 
