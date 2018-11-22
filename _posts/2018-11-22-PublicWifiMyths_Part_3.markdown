@@ -180,14 +180,12 @@ Next we will need to make a copy of the neopets.com website. Open terminal and t
 
 {% highlight ruby %}
 sudo setoolkit
-{% endhighlight %}
 
 #Once inside, choose these options in order
-
-(1) Social-Engineering Attacks
-(2) Website Attack Vectors
-(3) Credential Harvester Attack Method
-(2) Site Cloner
+1 Social-Engineering Attacks
+2 Website Attack Vectors
+3 Credential Harvester Attack Method
+2 Site Cloner
 {% endhighlight %}
 
 In your Windows VM, go to neopets.com and log in. Once that is done, SEToolkit will send display the credentials in the terminal window.
@@ -196,7 +194,7 @@ Go to your /var/www/html directory and open the harvester text file. You should 
 
 <b>Conclusion</b>
 
-Websites that use http can still be vulnurable to phishing scams. Even if the attacker is not trying to phish for the user credentials, he could still make a page that executes mallicious code. This attack will only work if the user does not notice how little sense it makes for a link on an http website to redirect to a login page on a different service alltogether. Half the population will proborbly fall for this, but I have not run the study myself due to obvious legal concerns. The DNS redirect attack I just described will only work if you already know what HTTP websites the user is currently browsing.
+Websites that use HTTP can still be vulnurable to phishing scams. Even if the attacker is not trying to phish for the user credentials, he could still make a page that executes mallicious code. This attack will only work if the user does not notice how little sense it makes for a link on an http website to redirect to a login page on a different service alltogether. Half the population will proborbly fall for this, but I have not run the study myself due to obvious legal concerns. The DNS redirect attack I just described will only work if you already know what HTTP websites the user is currently browsing.
 
 [Part 4 (If I See The Lock In My Browser's URL, Does That Mean I'm Safe?)][part-4]
 
