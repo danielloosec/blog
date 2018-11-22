@@ -182,10 +182,10 @@ Next we will need to make a copy of the neopets.com website. Open terminal and t
 sudo setoolkit
 
 #Once inside, choose these options in order
-1 Social-Engineering Attacks
-2 Website Attack Vectors
-3 Credential Harvester Attack Method
-2 Site Cloner
+(1) Social-Engineering Attacks
+(2) Website Attack Vectors
+(3) Credential Harvester Attack Method
+(2) Site Cloner
 {% endhighlight %}
 
 In your Windows VM, go to neopets.com and log in. Once that is done, SEToolkit will send display the credentials in the terminal window.
