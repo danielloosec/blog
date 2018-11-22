@@ -74,7 +74,7 @@ wpower="27";
 #I am not liable if you decide to go above the legal limit.
 wifi="$(ifconfig | grep flags | awk '{print $1}' | sed -n 3p | tr -d ':')";
 #If you are not using a virtual machine, you will not need the $wifi varible. If you are using Kali as a native system, then replace $wifi with $adp
-{% highlight ruby %}
+{% endhighlight %}
 
 By default, a router is placed into promiscuous mode. We need to switch it to monitor mode. Promiscuous mode is “normal” people WiFi mode. Think of promiscuous mode as a dumb beacon or an antenna. All it does is take in traffic as it comes and spits out what you tell it to. You won’t be able to access the internet because it requires a complicated series of handshakes. Monitor mode will simply accept everything.
 
