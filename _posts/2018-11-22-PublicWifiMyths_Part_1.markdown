@@ -5,38 +5,20 @@ date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---
 
+<br>[Part 0 (Introduction)][part-0]
+
 <b>Legal Disclosure: Don't do this on networks other than your own without written consent from the network administrator. Otherwise, you would be committing an illegal act.</b>
 
-There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. We will look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are 5 things you must always consider.
-
-<b>1: The probability of an individual monitoring your traffic.</b>
-Part of that is going to depend on how crowded the area is. If you are in a coffee shop with a handful of people, the odds are not high. If you are at a Las Vegas hotel, then the odds are higher. Yet the odds of it affecting you in any meaningful way are incredibly low.
-
-<b>2: How valuable the information is.</b>
-If you are an incredibly wealthy individual making financial transactions, then you can assess that your that your banking or business information is valuable. If you don't have much to lose or anything of worth to an attacker, then you won't have to be as cautious. If you are using a service for a company you are employed at, then the attacker might find value in breaching the company than you personally. At that point, you could be held responsible for negligence depending on how they choose to assess the situation. No one has to go full tinfoil as long as they understand the risk and choose a rational level of security.
-
-<b>3: Is your application encrypted?</b>
-Speaking for websites, you should always make sure the green lock appears in the upper left corner. This means the website is encrypted with HTTPS (as opposed to HTTP) and that is good. I can assure you that all popular mainstream websites have strong encryption. There's a lot of debate as to whether or not all websites always need to be encrypted. The short answer is yes, websites must ALWAYS be encrypted. Even if no login is required or the login screen is the only encrypted page, then you could be susceptible to DNS or Session Hijacking. We will prove that these threats are very real in later articles. Keep in mind that is is possible for an attacker to keep encrypted data, then decrypt it once the public learns how to break that version of the encryption. Yet this is highly unlikely. Also, keep in mind that other applications on your computer may not be safe. If an attacker gets the username and password for an unencrypted application, then they can use that password to log into other accounts that share the same username and password. You may have some applications running in the background that broadcast raw information that can be stolen.
-
-<b>4: The amount of time an attacker is willing to spend stealing your information.</b>
-As mentioned above, not everyone has valuable information. Most attackers will give up after a certain period of time. If you are running an unencrypted application, then it's still unlikely that the attacker is going to spend time making heads or tails of the information exclusive to the application let alone develop an exploit for it.
-
-<b>5: If you need to enter information into a router in order to access the network</b>
-Paid WiFi, even over HTTPS can be a risk. Hackers have ways of making fake versions that look like the real ones. They can even certify it for encryption free of charge with programs like [Let's  Encrypt][lets-encrypt] for free. If you have to provide your credit card number or anything sensitive, then refer to the first two steps to assess your risk.
+The common fear behind public wifi is that traffic can be monitored. After all, you are on the same network as a bunch of people who you don't know or trust. If someone is going to monitor your traffic, then what information can they acquire? Today will will learn about ARP tables and Wireshark.
 
 <b>Roadmap</b>
 
--What you will need.
+-Set up the virtual machine and the files.
 
--A copy of Kali Linux
+-Add variables and Wireshark scripts to the .bashrc file.
 
--VirtualBox in order to host Kali in a virtual machine.
+-Learn basic Wireshark traffic filters.
 
--A target system. I suggest installing a second virtual machine with [Windows XP as I have done][first-hack-pt1]
-
--Your own router
-
--Internet access
 
 Kali Linux comes with a tool called Wireshark. It is extremely useful for monitoring data on your device. You can use this tool to monitor either a specific device on the network or all devices on a network if you so with.
 
@@ -70,7 +52,7 @@ Change the "Name:" dropdown to the name of your network adapter. If you do not k
 
 <b>Install a Windows XP VM</b>
 
-It is easier to use an operating system that is compleatly vulnurable for testing. If these tutorials do not operate correctly on your primary system, then there could be an infinite variety of possible reasons. Make sure you test everything on a clean slate first before operating on other equiptment. In order to ensure the most certianty and the least room for error, follow my guide on installing a perfectly vulnurable version of [Windows XP][first-hack-pt1].
+It is easier to use an operating system that is completely vulnerable to testing. If these tutorials do not operate correctly on your primary system, then there could be an infinite variety of possible reasons. Make sure you test everything on a clean slate first before operating on other equipment. In order to ensure the most certainty and the least room for error, follow my guide on installing a perfectly vulnerable version of [Windows XP][first-hack-pt1].
 
 <b>Making life easier with the .bashrc file</b>
 
@@ -281,6 +263,7 @@ Notice something? Your computer slow to a crawl followed by the outburst from yo
 [Pt2. Can Your Private Information Be Stolen?][part-2]
 
 [lets-encrypt]: https://letsencrypt.org
+[part-0]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_0.html
+[part-2]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_2.html
 [first-hack-pt1]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_1.html
 [first-hack-pt2]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_2.html
-[part-2]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_2.html
