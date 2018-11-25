@@ -52,6 +52,12 @@ NoScript is a plugin that will disable Javascript. If an attacker redirects you 
 
 Download: [NoScript Lite][noscript]
 
+<b>Install Brave</b>
+
+You won't be able to get the previous two plugins for mobile browsers. Fear not, there is a more secure browser that allows HTTPS redirects and Javascript blocking. It is called Brave.
+
+Download [Brave][brave]
+
 <b>Uninstall Flash and Java</b>
 
 Much like javascript, Flash and Java can execute malicious code. You can not simply "update" them. Flash is notorious for [getting hit all the time.][flash] Both are meaningless in today's world. Everyone is trying to cut them out and Adobe themselves mentioned that Flash will be discontinued. Uninstall them both.
@@ -85,6 +91,7 @@ If you buy a VPN, then all your traffic will be encrypted. This includes your DN
 [dnsios]: https://appleinsider.com/articles/18/04/22/how-to-change-the-dns-server-used-by-your-iphone-and-ipad
 [dnsandroid]: http://osxdaily.com/2015/12/05/change-dns-server-settings-mac-os-x
 [https]: https://www.eff.org/https-everywhere
+[brave]: https://brave.com/download/
 [nord]: https://nordvpn.com
 [noscript]: https://mybrowseraddon.com/noscript-lite.html
 [flash]: https://www.theregister.co.uk/2016/06/16/adobe_36_flash_flaws/
