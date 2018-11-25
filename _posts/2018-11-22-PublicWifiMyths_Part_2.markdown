@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt2. Can Your Private Information Be Stolen?"
+title:  "The Myths Of Public WiFi - Pt2 Can Your Private Information Be Stolen?"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---

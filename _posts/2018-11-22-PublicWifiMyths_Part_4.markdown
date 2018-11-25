@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt4. If I See The Lock In My Browser's URL, Does That Mean I'm Safe?"
+title:  "The Myths Of Public WiFi - Pt4 If I See The Lock In My Browser's URL, Does That Mean I'm Safe?"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt6. Securing Yourself"
+title:  "The Myths Of Public WiFi - Pt6 Securing Yourself"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---
@@ -19,13 +19,13 @@ You won’t be needing to share files on public WiFi. Especially now that we hav
 
 Instructions:
 
-[Windows 10][ndwin10]
-[Windows 7/Vista][ndwin7]
-[OSX][ndosx]
+<br>[Windows 10][ndwin10]
+<br>[Windows 7/Vista][ndwin7]
+<br>[OSX][ndosx]
 
 <b>Test Your Device For Vulnerabilities With Nessus</b>
 
-I have mentioned [Nessus][nessus] software in my [first hack] article. It is extremely useful for identifying vulnerabilities and the threat outcome on your device.
+I have mentioned [Nessus][nessus] software in my [first hack][first-hack-pt1] article. It is extremely useful for identifying vulnerabilities and the threat outcome on your device.
 
 <b>Use Cloudflare's DNS</b>
 
@@ -33,12 +33,12 @@ By using Cloudflare’s DNS, you can prevent DNS hijacking. As an added bonus, i
 
 Instructions:
 
-[Windows 10][dnswin10]
-[Windows 7][dnswin7]
-[Windows Vista][dnswinvista]
-[OSX][dnswinosx]
-[iOS][dnsios]
-[Android][dnsandroid]
+<br>[Windows 10][dnswin10]
+<br>[Windows 7][dnswin7]
+<br>[Windows Vista][dnswinvista]
+<br>[OSX][dnswinosx]
+<br>[iOS][dnsios]
+<br>[Android][dnsandroid]
 
 <b>Install HTTPS Everywhere</b>
 
@@ -54,7 +54,7 @@ Download: [NoScript Lite][noscript]
 
 <b>Uninstall Flash and Java</b>
 
-Much like javascript, Flash and Java can execute malicious code. You can not simply "update" them. Flash is notorious for [getting hit all the time][flash] Both are meaningless in today's world. Everyone is trying to cut them out and Adobe themselves mentioned that Flash will be discontinued. Uninstall them both.
+Much like javascript, Flash and Java can execute malicious code. You can not simply "update" them. Flash is notorious for [getting hit all the time.][flash] Both are meaningless in today's world. Everyone is trying to cut them out and Adobe themselves mentioned that Flash will be discontinued. Uninstall them both.
 
 <b>Disable Automatic WiFi</b>
 
@@ -68,7 +68,10 @@ If you are on a website that you know very well, then do not accept unsigned cer
 
 If you buy a VPN, then all your traffic will be encrypted. This includes your DNS information so a hacker won't even be able to look at what websites you have been visiting. Even if you connect to his router, it will not matter. Do NOT get a free VPN. They are free for a reason. The [EFF][eff] recommends using [That One Privacy Site][thatone] in order to review which security features your VPN has. I personally use [NordVPN][nord]. They give out coupon codes all over the internet.
 
+
 [part-5]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_5.html
+
+[first-hack-pt1]: https://danielloosec.github.io/blog/jekyll/update/2018/04/16/MS08_067_Part_1.html
 
 [nessus]: https://www.tenable.com/downloads/nessus
 

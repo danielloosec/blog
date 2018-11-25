@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt5. What If The Router Is Hacked?"
+title:  "The Myths Of Public WiFi - Pt5 What If The Router Is Hacked?"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---

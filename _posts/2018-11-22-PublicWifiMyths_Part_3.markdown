@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt3. Is HTTP Is Safe If You Don't Log In?"
+title:  "The Myths Of Public WiFi - Pt3 Is HTTP Is Safe If You Don't Log In?"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---
