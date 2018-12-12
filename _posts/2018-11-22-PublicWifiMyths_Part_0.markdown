@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Myths Of Public WiFi - Pt0. Introduction"
+title:  "The Myths Of Public WiFi - Pt0 Introduction"
 date:   2018-11-22 14:56:03 -0400
 categories: jekyll update
 ---
