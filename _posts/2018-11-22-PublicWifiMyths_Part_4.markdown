@@ -241,7 +241,7 @@ Your Internet Explorer browser should give you a prompt to run the EXE. Say run,
 
 Even with Internet Explorer, the victim still had to click through several popup windows in order to be tricked into running an executable. If you are attacking with Beef, then there are many ways to disguise this. Make Beef redirect the user to a website claiming to be a virus protection service and tell them the install file is a "Virus removal tool." Or you could discuss the redirected site as a host for celebrity nudes and it requires a special "HD_XXX_video_player.exe" Even if we weren't using Beef, then we have demonstrated that an attacker can write ANYTHING. This can include javascript or Flash exploits that the victim's browser may not be prepared for. There is a lot of damage that could potentially be done with HTTP even if the victim's browser displays an HTTPS connection.
 
-[Part 5 (If I See The Lock In My Browser's URL, Does That Mean I'm Safe?)][part-4]
+[Part 5 (If I See The Lock In My Browser's URL, Does That Mean I'm Safe?)][part-5]
 
 [part-3]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_3.html
 [part-5]: https://danielloosec.github.io/blog/jekyll/update/2018/11/22/PublicWifiMyths_Part_5.html
