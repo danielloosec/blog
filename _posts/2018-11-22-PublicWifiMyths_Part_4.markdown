@@ -115,7 +115,7 @@ Save .bashrc with Ctrl+O and exit with Ctrl+X.
 
 <b>Careate a Metasploit RC script</b>
 
-Start by opening the newly filtered file
+Start by opening a new file file
 
 {% highlight ruby %}
 nano ~/msfscripts/payload_http.rc
