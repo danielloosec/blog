@@ -30,7 +30,7 @@ In our last article, we learned how sensitive login information can be compromis
 You may have heard network technicians throw the term around. The concept is very simple. No one wants to remember phone numbers. We create contact lists and call people by tapping their name. A DNS is a contact list for IP's. For example, the google.com domain in my area is 216.58.192.174. If you want to see a web domain's IP address, simply type
 
 {% highlight ruby %}
-nslookup wxample.com
+nslookup example.com
 {% endhighlight %}
 
 A DNS is important to the attacker. The attacker can change the IP location of a domain to his own computer. This means that instead of loading example.com at 93.184.216.34, example.com will go to 192.168.1.4 (or whatever your local IP is). This means the attacker can create a phishing page, or even execute malicious code. Even if the viewer is reading the .com]], simply clicking on something on within the website could bring up a fake Facebook login page. While the more security conscious people will immediately see the suspicious cause and effect relationship, the transition is so seamless that the average user will just assume his browser "glitched" and he will simply have to log in again. While services like Facebook have Two Factor Authentication, a [sophisticated attacker][2FA] can create a phish for that as well.
