@@ -10,8 +10,11 @@ categories: jekyll update
 There has been plenty of confusion surrounding the safety of public WiFi. What is the risk, and how concerned should you be? Short answer, this risk is very minimal, yet it is still significant. Many authority figures have provided guides on the risk of public WiFi. Start by reading them.
 
 [FTC][ftc]
+
 [Homeland Security][dhs]
+
 [Symantec][symantec]
+
 [Kaspersky][kaspersky]
 
 Read them? Excellent. There are a few misconceptions that people infer after reading these risks. Am I saying I know better than the top of the line security professionals? Of course not. Most of them are written to protect people who are very unfamiliar with technology. If you are a normal guy who knows how to fix your own computer when it breaks, then you're going to be ok for the most part. If you are the CEO of Cloudflare or the President of the United States then you will want to avoid the risk altogether. Many of them also want to err on the side of caution. For example, the rules explain that HTTPS is safe but they tell you to avoid online banking even when all major banks use HTTPS? Why is that? We are about to look into the perspective of an attacker’s abilities, limits, and the amount of risk you are willing to mitigate for yourself. But for now, there are 5 things you must always consider.
