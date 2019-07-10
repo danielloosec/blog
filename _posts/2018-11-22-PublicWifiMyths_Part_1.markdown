@@ -54,6 +54,52 @@ Change the "Name:" dropdown to the name of your network adapter. If you do not k
 
 It is easier to use an operating system that is completely vulnerable to testing. If these tutorials do not operate correctly on your primary system, then there could be an infinite variety of possible reasons. Make sure you test everything on a clean slate first before operating on other equipment. In order to ensure the most certainty and the least room for error, follow my guide on installing a perfectly vulnerable version of [Windows XP][first-hack-pt1].
 
+<b>Removing Critical Commands From Sudo</b>
+
+If we want our future scripts  to work, then they will need to automaticly access 3 commands. The problem is that these 3 commands may be protected as superuser commands. We must first use nano to edit a critical superuser file. Then we must add shortcuts or "hardlinks" for these commands so they will run under our user profile.
+
+Let's start by testing each command's permission. Type these 3 commands.
+
+{% highlight ruby %}
+/usr/bin/ifconfig
+/usr/bin/route
+/usr/bin/arp
+{% endhighlight %}
+
+One of 2 things will happen. Either the file will exist, or it will not be found. If these files exist, skip to the next section. If they do not, then continue with this section.
+
+We must change our sudo file editor. First command you type is
+
+{% highlight ruby %}
+update-alternatives --config editor
+{% endhighlight %}
+
+Choose the number that corresponds with the nano editor. The superuser file will open with Vim by default. But we're a nano house and this is a nano tutorial. It's more intuitive for beginners.
+
+Next we must access the super user file.
+
+{% highlight ruby %}
+sudo visudo
+{% endhighlight %}
+
+Next we must add 2 lines at the BOTTUM of the file. I used my username but you should use yours.
+
+{% highlight ruby %}
+daniel    ALL=NOPASSWD: /usr/sbin/ifconfig
+daniel    ALL=NOPASSWD: /usr/sbin/route -n
+daniel    ALL=NOPASSWD: /usr/sbin/arp -n
+{% endhighlight %}
+
+Ctrl+O to save, ctrl+X to exit.
+
+Create 3 hard links in the user command directory.
+
+{% highlight ruby %}
+ln /usr/sbin/ifconfig /usr/bin/ifconfig
+ln /usr/sbin/route /usr/bin/route
+ln /usr/sbin/arp /usr/bin/arp
+{% endhighlight %}
+
 <b>Making life easier with the .bashrc file</b>
 
 What is .bashrc? Network security requires plenty of commands. Some of those commands in Kali are extremely long and it can be tedious typing them in over and over again. First, boot up Kali Linux in VB. The .bashrc file allows you to make command shortcuts. So start by opening .bashrc by opening a new terminal window. next type
@@ -67,31 +113,65 @@ Note: If you choose to modify this file in something like Mousepad, then all you
 We will start by creating a series of variables at the top of the document. Commands often require us to type in the same set of commands over and over again. We do not want this. Make sure the first couple of lines include the following. I will use my own local IP's but you should use yours.
 
 {% highlight ruby %}
+#LAN Basics Varibles
+
 targetIP="192.168.1.26";
-#target IP is the IP of your target windows system. ipconfig on the Windows VM for more details.
+
 myIP="$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}')";
 gatewayIP="$(route -n | awk '{print $2}' | sed -n 3p)";
-adp="$(ifconfig | grep flags | awk '{print $1}' | sed -n 1p | tr -d ':')";
+
+#Adapter Basics Varibles
+
+eth="$(ifconfig | grep flags | awk '{print $1}' | sed -n 1p | tr -d ':')";
+wifi="$(ifconfig | grep flags | awk '{print $1}' | sed -n 3p | tr -d ':')";
+
+#Set adp to either $eth (for ethernet users) or $wifi (for wifi users) depending on what you want to use
+
+adp="$wifi";
+
 #Without going into too much detail, ifconfig is how we find the IP. The | character seperates multiple series of commands to strip text and isolate the desired value. Use 'man' for more details.
+{% endhighlight %}
+
+Now lets add our user and group information. I will use my nameand group but you can use yours
+
+{% highlight ruby %}
+myUser="daniel";
+myGroup="admin";
+{% endhighlight %}
+
+Now we need varibles for a helpful tool called Wireshark. Be sure to change the adapter to your the one you are using. In our case it's $wifi. Wireshark originally uses pcap capture files. Instead of generating one large file, I like to break them up so they are easier to movearound and isolate. When we use Wireshark, we will monitor traffic andsave the results in 8192KB files. You will be allowed to create up to 10. You can add more if you with.
+
+{% highlight ruby %}
+pcap_adp=$adp;
+pcap_files=10;
+pcap_filesize=8192;
 {% endhighlight %}
 
 If you don't know how to find all this information, then we will go through it step by step.
 
-<b>targetIP:</b> In your target computer (which I assume is windows), type in ipconfig. Look for the line that says IPv4 Address. If you are in a real-world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
+<b>targetIP:</b> In your target computer (which I assume is windows), type in {% highlight ruby %}ipconfig{% endhighlight %}. Look for the line that says IPv4 Address. If you are in a real-world scenario, then you will need to obtain the IP by gathering more information on all computers on the network. For more information on how to do that, set up arp-scan and nmap using my [previous article.][first-hack-pt2]
 
-<b>myIP:</b> This is the IP for your Kali Linux machine. Type ifconfig and look for the 192.168 address.
+<b>myIP:</b> This is the IP for your Kali Linux machine. Type {% highlight ruby %}ifconfig{% endhighlight %} and look for the 192.168 address in order find your IP. Now make sure your variblereads the correct IP by typing {% highlight ruby %}echo $myIP{% endhighlight %}
 
 ![image tooltip](/blog/images/wifi/ifconfig.JPG)
 
-<b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled Default Gateway. If you want to know how to do this in Linux, type {% highlight ruby %}ip r{% endhighlight %}
+<b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled 'Default Gateway'. If you want to know how to do this in Linux, type {% highlight ruby %}route -n{% endhighlight %}
 
-<b>adp:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name. The name is typically eth0 but you should double check.
+
+<b>eth:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name when I am plugged into a wired connection. The name is typically eth0 but you should double check with {% highlight ruby %}echo $eth{% endhighlight %}
+
+<b>wifi</b> This is my adapter name when I am plugged into a wired connection. The name is typically wlan0 but you should double check with {% highlight ruby %}echo $wifi{% endhighlight %}
+
+<b>adp</b> This is the adapter you will be using. You can switch between eth and wifi.
+
 
 Save with Ctrl+O, Exit with Ctrl+X and open a new terminal tab. Test them with the following commands
 
 {% highlight ruby %}
 echo $myIP
 echo $gatewayIP
+echo $eth
+echo $wifi
 echo $adp
 
 #Compare them against
@@ -150,10 +230,37 @@ The next function cannot simply be added with a copy paste. You will need to loo
 function mv_pcap () 
 { 
 sudo chmod 600 /tmp/*.pcap;
-sudo chown myuser:myuser /tmp/*.pcap;
+sudo chown $myUser:$myGroup /tmp/*.pcap;
 sudo mv /tmp/*.pcap ~;
 }
 #modifies the permissions for saved packet captures then moves them to the home folder
+{% endhighlight %}
+
+Add a function that will be used to scan all traffic
+
+{% highlight ruby %}
+function tshark_all () { sudo tshark -i $pcap_adp -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture.pcap; }
+#tshark: Wireshark capture tool for command interfaces.
+#-i: Specify the interface. We are using our custom variable
+#-b: Limit the capture either by duration, file size, or the number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
+#-a: Autostop. When to stop the process. In this case, after 10 files.
+#-w: Write files to a directory. In this case, /tmp/. Make sure the file name ends with .pcap so we can open it later.
+{% endhilight %}
+
+Add a function that will only scan traffic on specific ports
+
+We can set Wireshark to capture traffic by ports exclusively. This makes the file size smaller and easier to read. We are going to go back into our .bashrc file and add a few more lines.
+
+{% highlight ruby %}
+function tshark_dns() { sudo tshark -i $pcap_adp -f "port 53" -b filesize:8192 -a files:10 -w /tmp/capture_dns.pcap; }
+#same as the original tshark command but captures dns exclusivly
+#-f: Specify port. you can say things like "port 53 and port 80" if you wish to save multiple protocols in the same packet capture.
+#this particular function only captures dns traffic
+function tshark_ftp() { sudo tshark -i $pcap_adp -f "port 21" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ftp.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_ssh() { sudo tshark -i $pcap_adp -f "port 22" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ssh.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_http() { sudo tshark -i $pcap_adp -f "port 80" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_http.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_pop3() { sudo tshark -i $pcap_adp -f "port 110" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_pop3.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_smb() { sudo tshark -i $pcap_adp -f "port 445" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_smb.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
 {% endhighlight %}
 
 Save the file with Ctrl+O and confirm the changes. Press Ctrl+X to exit nano. You will need to close and reopen the terminal in order for the changes to take effect.
@@ -181,27 +288,19 @@ You should a bunch of random data flying through. This means it is working. In t
 With the net terminal tab open, we are going to capture the traffic and store it for later viewing. Wireshark is a wonderful tool for this. Wireshark is normally used as a graphical application, but one can only collect so much traffic with the graphical tool before running out of RAM. The target might be doing something you as the attacker would consider interesting. He might simultaneously be watching Youtube, uploading files to the cloud or even listening to a podcast. This amount of data that will have passed to and from his device will add up to something tremendous. You will want to limit the file size. Much like RAM, hard drive space is also a limited resource. You can save a file with a maximum file size limit. Once that limit is reached, then a new file is created. You can specify the maximum number of files you want to create. Once the limit has been reached, Wireshark will start deleting older files in order to make room for newer ones. For security reasons, we want to save these files to the /tmp/ directory, then copy them to our home directory when we are done. Now run the following.
 
 {% highlight ruby %}
-sudo tshark -i $adp -b filesize:8192 -a files:10 -w /tmp/capture.pcap
-#tshark: Wireshark capture tool for command interfaces.
-#-i: Specify the interface. We are using our custom variable
-#-b: Limit the capture either by duration, file size, or the number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
-#-a: Autostop. When to stop the process. In this case, after 10 files.
-#-w: Write files to a directory. In this case, /tmp/. Make sure the file name ends with .pcap so we can open it later.
+#Filesize limit to 8192KB
+pcap_filesize=8192
+#Sets max files to 10
+pcap_files=10
+{% endhighlight %}
+
+{% highlight ruby %}
+tshark_all
 {% endhighlight %}
 
 <b>Reading Captured Traffic</b>
 
-While Wireshark is running, browse the internet with your target system. Take a break and do what you would normally do on the internet. Reframe from playing online games or streaming since this takes up a lot of space. I would suggest simply browsing the internet. After some time has passed, click the second terminal tab. Press Ctrl+C to stop the capture process if it hasn't stopped itself. Click on the first terminal tab. Press q in order to quit Ettercap. Now run the following command to re-enable IP forwarding
-
-{% highlight ruby %}
-sudo sysctl -w net.ipv4.ip_forward=0;
-{% endhighlight %}
-
-You will want to open the /tmp/ directory and move all the saved captures to your home directory. First edit the permissions, then use the move command
-
-{% highlight ruby %}
-mv_pcap
-{% endhighlight %}
+While Wireshark is running, browse the internet with your target system. Take a break and do what you would normally do on the internet. Reframe from playing online games or streaming since this takes up a lot of space. I would suggest simply browsing the internet. After some time has passed, click the second terminal tab. Press Ctrl+C to stop the capture process if it hasn't stopped itself. Click on the first terminal tab. Press q in order to quit.
 
 Double click any of the given capture files. You should see a long spreadsheet of information. Most of this information will be meaningless to you as an attacker. Why? If you simply want to see what website someone is visiting, then you don't need all the images, ads, and other stuff that comes with it. You just need to know the URL he is visiting. There are tons of ways to filter, analyze and parse information. Much of it will require more than a few simple blog post. But there are a few key things to look for.
 
@@ -234,21 +333,7 @@ You will be able to see plenty of "DNS" packets. While web traffic is encrypted,
 
 <b>Save Only Filtered Traffic</b>
 
-Now that we have an idea of what the victim is using, we can set Wireshark to capture traffic by ports exclusively. This makes the file size smaller and easier to read. We are going to go back into our .bashrc file and add a few more lines.
 
-{% highlight ruby %}
-function tshark_dns() { sudo tshark -i $adp -f "port 53" -b filesize:8192 -a files:10 -w /tmp/capture_dns.pcap; }
-#same as the original tshark command but captures dns exclusivly
-#-f: Specify port. you can say things like "port 53 and port 80" if you wish to save multiple protocols in the same packet capture.
-#this particular function only captures dns traffic
-function tshark_ftp() { sudo tshark -i $adp -f "port 21" -b filesize:8192 -a files:10 -w /tmp/capture_ftp.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_ssh() { sudo tshark -i $adp -f "port 22" -b filesize:8192 -a files:10 -w /tmp/capture_ssh.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_http() { sudo tshark -i $adp -f "port 80" -b filesize:8192 -a files:10 -w /tmp/capture_http.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_pop3() { sudo tshark -i $adp -f "port 110" -b filesize:8192 -a files:10 -w /tmp/capture_pop3.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_smb() { sudo tshark -i $adp -f "port 445" -b filesize:8192 -a files:10 -w /tmp/capture_smb.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-{% endhighlight %}
-
-Save and exit the terminal in order for changes to take effect. When you run Wireshark, you can open as many extra terminal windows as you like and capture as much filtered traffic as you deem necessary.
 
 <b>Conclusion</b>
 

