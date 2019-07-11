@@ -157,13 +157,11 @@ If you don't know how to find all this information, then we will go through it s
 
 <b>gatewayIP:</b> Normally it is something like 192.168.1.1. If you are using your Windows machine, type {% highlight ruby %}ipconfig{% endhighlight %} again and look for the line titled 'Default Gateway'. If you want to know how to do this in Linux, type {% highlight ruby %}route -n{% endhighlight %}
 
-
 <b>eth:</b> Look at the ifconfig screenshot again. I highlighted eth0. This is my adapter name when I am plugged into a wired connection. The name is typically eth0 but you should double check with {% highlight ruby %}echo $eth{% endhighlight %}
 
 <b>wifi</b> This is my adapter name when I am plugged into a wired connection. The name is typically wlan0 but you should double check with {% highlight ruby %}echo $wifi{% endhighlight %}
 
 <b>adp</b> This is the adapter you will be using. You can switch between eth and wifi.
-
 
 Save with Ctrl+O, Exit with Ctrl+X and open a new terminal tab. Test them with the following commands
 
@@ -245,7 +243,7 @@ function tshark_all () { sudo tshark -i $pcap_adp -b filesize:$pcap_filesize -a 
 #-b: Limit the capture either by duration, file size, or the number of files. We will be using filesize. Filesize in KB, so 8192KB is 8MB. You can make them larger if you wish.
 #-a: Autostop. When to stop the process. In this case, after 10 files.
 #-w: Write files to a directory. In this case, /tmp/. Make sure the file name ends with .pcap so we can open it later.
-{% endhilight %}
+{% endhighlight %}
 
 Add a function that will only scan traffic on specific ports
 
@@ -256,11 +254,11 @@ function tshark_dns() { sudo tshark -i $pcap_adp -f "port 53" -b filesize:8192 -
 #same as the original tshark command but captures dns exclusivly
 #-f: Specify port. you can say things like "port 53 and port 80" if you wish to save multiple protocols in the same packet capture.
 #this particular function only captures dns traffic
-function tshark_ftp() { sudo tshark -i $pcap_adp -f "port 21" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ftp.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_ssh() { sudo tshark -i $pcap_adp -f "port 22" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ssh.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_http() { sudo tshark -i $pcap_adp -f "port 80" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_http.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_pop3() { sudo tshark -i $pcap_adp -f "port 110" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_pop3.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
-function tshark_smb() { sudo tshark -i $pcap_adp -f "port 445" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_smb.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap}
+function tshark_ftp() { sudo tshark -i $pcap_adp -f "port 21" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ftp.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap; }
+function tshark_ssh() { sudo tshark -i $pcap_adp -f "port 22" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_ssh.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap; }
+function tshark_http() { sudo tshark -i $pcap_adp -f "port 80" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_http.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap; }
+function tshark_pop3() { sudo tshark -i $pcap_adp -f "port 110" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_pop3.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap; }
+function tshark_smb() { sudo tshark -i $pcap_adp -f "port 445" -b filesize:$pcap_filesize -a files:$pcap_files -w /tmp/capture_smb.pcap; sudo sysctl -w net.ipv4.ip_forward=0; mv_pcap; }
 {% endhighlight %}
 
 Save the file with Ctrl+O and confirm the changes. Press Ctrl+X to exit nano. You will need to close and reopen the terminal in order for the changes to take effect.
